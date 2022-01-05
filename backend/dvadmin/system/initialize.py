@@ -91,6 +91,16 @@ class Initialize(CoreInitialize):
              "icon": "file-excel-o", "parent_id": "805390f3-a6e6-411e-9798-eebd34b76204",
              "component": "system/fileList/file/index",
              "component_name": "file"},
+            {
+                "component": "system/whiteList/index",
+                "component_name": "whiteList",
+                "icon": "",
+                "id": "b6a8bce3-89dc-4fc3-9745-9448e75196b5",
+                "name": "接口白名单",
+                "parent": "54f769b0-3dff-416c-8102-e55ec44827cc",
+                "sort": 10,
+                "web_path": "/whiteList"
+            }
         ]
         self.save(Menu, self.menu_data, "菜单表")
 
