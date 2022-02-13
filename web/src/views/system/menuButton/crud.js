@@ -86,7 +86,6 @@ export const crudOptions = (vm) => {
         }
       },
       form: {
-        name: 'select',
         rules: [ // 表单校验规则
           { required: true, message: '必填项' }
         ],
