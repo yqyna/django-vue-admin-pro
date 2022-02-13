@@ -170,7 +170,7 @@ class Initialize(CoreInitialize):
             {"id": "fcbe4cec-cc2d-436d-92ba-023f8c9ad31c", "menu_id": "56c3f341-4f46-4b04-9cfc-c8a14701707e",
              "name": "单例", "value": "Retrieve", "api": "/api/system/menu/{id}/", "method": 0},
             {"id": "1a0c96cf-09a6-43b4-b08a-0c5b6e2f7bb8", "menu_id": "a607e820-36e5-45c0-aabf-85a8e4e2c7ac",
-             "name": "保存", "value": "Retrieve", "api": "/api/system/role/{id}/", "method": 2},
+             "name": "保存", "value": "Save", "api": "/api/system/role/{id}/", "method": 2},
             {"id": "bc6104a0-f487-4dfd-a368-fb587d6d57d8", "menu_id": "e0f53902-e901-490c-83f3-331e60b97fcf",
              "name": "编辑", "value": "Update", "api": "/api/system/menu_button/{id}/", "method": 2},
             {"id": "5aac29b0-5a32-45fb-81c5-437b48f4a5df", "menu_id": "e0f53902-e901-490c-83f3-331e60b97fcf",
