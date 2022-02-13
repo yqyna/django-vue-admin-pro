@@ -6,7 +6,7 @@
 @Created on: 2021/6/1 001 23:05
 @Remark: 系统管理的路由文件
 """
-from django.urls import path, re_path
+from django.urls import path
 from rest_framework import routers
 
 from dvadmin.system.views.api_white_list import ApiWhiteListViewSet
@@ -35,7 +35,6 @@ system_url.register(r'area', AreaViewSet)
 system_url.register(r'img', ImgViewSet)
 system_url.register(r'file', FileViewSet)
 system_url.register(r'api_white_list', ApiWhiteListViewSet)
-
 
 urlpatterns = [
     path('role/role_id_to_menu/<str:pk>/', RoleViewSet.as_view({'get': 'roleId_to_menu'})),
