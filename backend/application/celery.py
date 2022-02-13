@@ -5,7 +5,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'application.settings')
 from django.conf import settings
 from celery import platforms
 
-if getattr(settings, 'PLUGINS_LIST', {}).get('dvadmin_tenant_backend', None):
+if getattr(settings, 'REGISTER_PLUGINS', {}).get('dvadmin_tenant', None):
     from tenant_schemas_celery.app import CeleryApp as TenantAwareCeleryApp
     app = TenantAwareCeleryApp()
 else:

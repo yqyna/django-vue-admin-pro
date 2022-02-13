@@ -341,3 +341,7 @@ DJANGO_CELERY_BEAT_TZ_AWARE = False
 CELERY_TIMEZONE = 'Asia/Shanghai'  # celery 时区问题
 # 静态页面压缩
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# dvadmin 插件
+REGISTER_PLUGINS = (
+    # ""
+)
