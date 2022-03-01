@@ -14,17 +14,20 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 
 from dvadmin.utils.filters import DataLevelPermissionsFilter
+from dvadmin.utils.import_export_mixin import ExportSerializerMixin, ImportSerializerMixin
 from dvadmin.utils.json_response import SuccessResponse, ErrorResponse, DetailResponse
 from dvadmin.utils.permission import CustomPermission
 from django_restql.mixins import QueryArgumentsMixin
 
-class CustomModelViewSet(ModelViewSet):
+class CustomModelViewSet(ModelViewSet,ImportSerializerMixin,ExportSerializerMixin):
     """
     自定义的ModelViewSet:
     统一标准的返回格式;新增,查询,修改可使用不同序列化器
     (1)ORM性能优化, 尽可能使用values_queryset形式
-    (2)create_serializer_class 新增时,使用的序列化器
-    (3)update_serializer_class 修改时,使用的序列化器
+    (2)xxx_serializer_class 某个方法下使用的序列化器(xxx=create|update|list|retrieve|destroy)
+    (3)filter_fields = '__all__' 默认支持全部model中的字段查询(除json字段外)
+    (4)import_field_dict={} 导入时的字段字典 {model值: model的label}
+    (5)export_field_label = [] 导出时的字段
     """
     values_queryset = None
     ordering_fields = '__all__'
@@ -34,6 +37,8 @@ class CustomModelViewSet(ModelViewSet):
     search_fields = ()
     extra_filter_backends = [DataLevelPermissionsFilter]
     permission_classes = [CustomPermission]
+    import_field_dict = {}
+    export_field_label = []
 
     def filter_queryset(self, queryset):
         for backend in set(set(self.filter_backends) | set(self.extra_filter_backends or [])):

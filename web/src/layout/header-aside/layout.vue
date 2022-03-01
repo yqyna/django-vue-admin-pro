@@ -86,7 +86,7 @@
               <!-- 页面 -->
               <div class="d2-theme-container-main-body" flex-box="1">
                 <transition :name="transitionActive ? 'fade-transverse' : ''">
-                  <keep-alive :include="keepAlive">
+                  <keep-alive :include="keepAlive" v-if="showView">
                     <router-view :key="routerViewKey" />
                   </keep-alive>
                 </transition>
@@ -129,12 +129,18 @@ export default {
     d2HeaderLog,
     d2HeaderColor
   },
+  provide () {
+    return {
+      refreshView: this.refreshView
+    }
+  },
   data () {
     return {
       // [侧边栏宽度] 正常状态
       asideWidth: '200px',
       // [侧边栏宽度] 折叠状态
-      asideWidthCollapse: '65px'
+      asideWidthCollapse: '65px',
+      showView: true // 用于点击当前页的router时，刷新当前页
     }
   },
   computed: {
@@ -175,7 +181,16 @@ export default {
      */
     handleToggleAside () {
       this.asideCollapseToggle()
-    }
+    },
+    /**
+     * 刷新页面
+     */
+    refreshView () {
+      this.showView = false // 通过v-if移除router-view节点
+      this.$nextTick(() => {
+        this.showView = true // DOM更新后再通过v-if添加router-view节点
+      })
+    },
   }
 }
 </script>

@@ -278,6 +278,7 @@ class ApiWhiteList(CoreModel):
         (3, "DELETE"),
     )
     method = models.IntegerField(default=0, verbose_name="接口请求方法", null=True, blank=True, help_text="接口请求方法")
+    enable_datasource = models.BooleanField(default=True, verbose_name="激活数据权限", help_text="激活数据权限", blank=True)
 
     class Meta:
         db_table = table_prefix + "api_white_list"

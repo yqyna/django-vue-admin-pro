@@ -24,7 +24,7 @@ class ImgSerializer(CustomModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
-        validated_data['name'] = str(validated_data.get('url'))
+        validated_data['name'] = str(validated_data.get('file'))
         return super().create(validated_data)
 
 

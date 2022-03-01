@@ -54,7 +54,6 @@ class WebRouterSerializer(CustomModelSerializer):
     menuPermission = serializers.SerializerMethodField(read_only=True)
 
     def get_menuPermission(self, instance):
-        print(instance.id)
         # 判断是否是超级管理员
         if self.request.user.is_superuser:
             return Button.objects.values_list('value', flat=True)

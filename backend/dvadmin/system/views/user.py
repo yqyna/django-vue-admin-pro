@@ -76,6 +76,45 @@ class UserUpdateSerializer(CustomModelSerializer):
             'post': {'required': False, 'read_only': True},
         }
 
+
+class ExportUserProfileSerializer(CustomModelSerializer):
+    """
+    用户导出 序列化器
+    """
+    last_login = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
+    dept__deptName = serializers.CharField(source='dept.deptName', default='')
+    dept__owner = serializers.CharField(source='dept.owner', default='')
+    gender = serializers.CharField(source='get_gender_display',read_only=True)
+
+    class Meta:
+        model = Users
+        fields = ( 'username', 'name', 'email', 'mobile', 'gender', 'is_active', 'last_login', 'dept__deptName',
+                  'dept__owner')
+
+class UserProfileImportSerializer(CustomModelSerializer):
+
+    def save(self, **kwargs):
+        data = super().save(**kwargs)
+        password = hashlib.new('md5', self.initial_data.get('password', '').encode(encoding='UTF-8')).hexdigest()
+        data.set_password(password)
+        data.save()
+        return data
+
+    def run_validation(self, data={}):
+        # 把excel 数据进行格式转换
+        if type(data) is dict:
+            print(123,str(data['role']).split(','))
+            data['role'] = str(data['role']).split(',')
+            data['dept_id'] = str(data['dept']).split(',')
+            data['gender'] = {'男': '1', '女': '0', '未知': '2'}.get(data['gender'])
+            data['is_active'] = {'启用': True, '禁用': False}.get(data['is_active'])
+        return super().run_validation(data)
+
+    class Meta:
+        model = Users
+        exclude = ('password','post','user_permissions', 'groups', 'is_superuser', 'date_joined')
+
+
 from django_restql.mixins import QueryArgumentsMixin
 class UserViewSet(QueryArgumentsMixin,CustomModelViewSet):
     """
@@ -99,6 +138,14 @@ class UserViewSet(QueryArgumentsMixin,CustomModelViewSet):
     #     'dept': ['exact'],
     # }
     search_fields = ['username','name','gender','dept__name','role__name']
+    #导出
+    export_field_label = ['用户账号', '用户名称','用户邮箱', '手机号码', '用户性别', '帐号状态', '最后登录时间', '部门名称', '部门负责人']
+    export_serializer_class = ExportUserProfileSerializer
+    #导入
+    import_serializer_class = UserProfileImportSerializer
+    import_field_dict = {'username': '登录账号', 'name': '用户名称', 'email': '用户邮箱', 'mobile': '手机号码',
+                         'gender': '用户性别(男/女/未知)',
+                         'is_active': '帐号状态(启用/禁用)', 'password': '登录密码', 'dept': '部门ID', 'role': '角色ID'}
 
     def user_info(self, request):
         """获取当前用户信息"""
