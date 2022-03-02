@@ -103,7 +103,6 @@ class UserProfileImportSerializer(CustomModelSerializer):
     def run_validation(self, data={}):
         # 把excel 数据进行格式转换
         if type(data) is dict:
-            print(123,str(data['role']).split(','))
             data['role'] = str(data['role']).split(',')
             data['dept_id'] = str(data['dept']).split(',')
             data['gender'] = {'男': '1', '女': '0', '未知': '2'}.get(data['gender'])
