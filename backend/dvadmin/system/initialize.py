@@ -97,7 +97,7 @@ class Initialize(CoreInitialize):
                 "icon": "",
                 "id": "b6a8bce3-89dc-4fc3-9745-9448e75196b5",
                 "name": "接口白名单",
-                "parent": "54f769b0-3dff-416c-8102-e55ec44827cc",
+                "parent_id": "54f769b0-3dff-416c-8102-e55ec44827cc",
                 "sort": 10,
                 "web_path": "/whiteList"
             }
