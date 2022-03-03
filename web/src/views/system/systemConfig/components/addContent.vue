@@ -82,7 +82,7 @@ export default {
           },
           {
             pattern: /^[A-Za-z0-9]+$/,
-            message: '只能是数字字母'
+            message: '只支持字母和数字的输入'
           }
         ],
         form_item_type: [
