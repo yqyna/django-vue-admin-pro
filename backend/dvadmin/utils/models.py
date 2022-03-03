@@ -8,6 +8,7 @@
 """
 import uuid
 
+from django.apps import apps
 from django.db import models
 
 from application import settings
@@ -34,3 +35,29 @@ class CoreModel(models.Model):
         abstract = True
         verbose_name = '核心模型'
         verbose_name_plural = verbose_name
+
+
+def get_all_models_objects(model_name=None):
+    """
+    获取所有 models 对象
+    :return: {}
+    """
+    settings.ALL_MODELS_OBJECTS = {}
+    if not settings.ALL_MODELS_OBJECTS:
+        all_models = apps.get_models()
+        for item in list(all_models):
+            table = {
+                "tableName": item._meta.verbose_name,
+                "table": item.__name__,
+                "tableFields": []
+            }
+            for field in item._meta.fields:
+                fields = {
+                    "title": field.verbose_name,
+                    "field": field.name
+                }
+                table['tableFields'].append(fields)
+            settings.ALL_MODELS_OBJECTS.setdefault(item.__name__, {"table": table, "object": item})
+    if model_name:
+        return settings.ALL_MODELS_OBJECTS[model_name] or {}
+    return settings.ALL_MODELS_OBJECTS or {}

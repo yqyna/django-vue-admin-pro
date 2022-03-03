@@ -348,6 +348,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # 初始化需要执行的列表，用来初始化后执行
 INITIALIZE_LIST = []
 INITIALIZE_RESET_LIST = []
+ALL_MODELS_OBJECTS = [] # 所有app models 对象
 # 导入租户数据
 SHARED_APPS = []
 from plugins import *
