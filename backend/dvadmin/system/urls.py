@@ -20,6 +20,7 @@ from dvadmin.system.views.menu import MenuViewSet
 from dvadmin.system.views.menu_button import MenuButtonViewSet
 from dvadmin.system.views.operation_log import OperationLogViewSet
 from dvadmin.system.views.role import RoleViewSet
+from dvadmin.system.views.system_config import SystemConfigViewSet
 from dvadmin.system.views.user import UserViewSet
 
 system_url = routers.SimpleRouter()
@@ -35,6 +36,7 @@ system_url.register(r'area', AreaViewSet)
 system_url.register(r'img', ImgViewSet)
 system_url.register(r'file', FileViewSet)
 system_url.register(r'api_white_list', ApiWhiteListViewSet)
+system_url.register(r'system_config', SystemConfigViewSet)
 
 
 urlpatterns = [
@@ -44,5 +46,9 @@ urlpatterns = [
     path('user/change_password/<str:pk>/', UserViewSet.as_view({'put': 'change_password'})),
     path('user/export/', UserViewSet.as_view({'get': 'export_data', })),
     path('user/import/',UserViewSet.as_view({'get': 'import_data', 'post': 'import_data'})),
+    path('system_config/save_content/', SystemConfigViewSet.as_view({'put': 'save_content'})),
+    path('system_config/get_association_table/', SystemConfigViewSet.as_view({'get': 'get_association_table'})),
+    path('system_config/get_table_data/<str:pk>/', SystemConfigViewSet.as_view({'get': 'get_table_data'})),
+    path('system_config/get_relation_info/', SystemConfigViewSet.as_view({'get': 'get_relation_info'})),
 ]
 urlpatterns += system_url.urls

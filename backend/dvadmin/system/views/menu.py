@@ -86,7 +86,7 @@ class MenuViewSet(CustomModelViewSet):
     create_serializer_class = MenuCreateSerializer
     update_serializer_class = MenuCreateSerializer
     search_fields = ['name', 'status']
-    filter_fields = ['parent','name', 'status','is_link','visible','cache']
+    filter_fields = ['parent','name', 'status','is_link','visible','cache','is_catalog']
     permission_classes = []
 
     def web_router(self, request):
