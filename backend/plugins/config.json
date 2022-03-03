@@ -1,7 +1,7 @@
 {
   "plugins_market_backend": {
     "name": "插件市场后台",
-    "enable": true,
+    "enable": false,
     "git": "https://gitee.com/dvadmin/plugins_market_backend.git",
     "priority": 1,
     "tags": "v0.0.1",
@@ -25,7 +25,7 @@
   },
    "upgrade_center_backend":{
     "name": "APP升级中心后端",
-    "enable": true,
+    "enable": false,
     "git": "https://gitee.com/dvadmin/upgrade-center-backend.git",
     "priority": 1,
     "tags": "v0.0.1",

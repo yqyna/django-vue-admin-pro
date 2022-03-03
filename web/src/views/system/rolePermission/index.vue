@@ -14,7 +14,7 @@
           <div class="yxt-flex-between">
             <div>
               <el-tag>
-                当前选择:{{ roleObj.name ? roleObj.name : "无" }}
+                当前选择:{{ roleObj.name ? roleObj.name : '无' }}
               </el-tag>
             </div>
             <div>
@@ -23,11 +23,11 @@
                 size="mini"
                 @click="submitPermisson"
                 v-permission="'Save'"
-                >保存
+              >保存
               </el-button>
             </div>
           </div>
-          <br />
+          <br/>
           <el-tree
             class="filter-tree"
             :data="data"
@@ -119,19 +119,20 @@
                   show-checkbox
                   :expand-on-click-node="false"
                   :default-checked-keys="menuCheckedKeys"
-                  :check-on-click-node="true"
-                  :check-strictly="true"
+                  :check-on-click-node="false"
                   empty-text="请先选择角色"
+                  :check-strictly="true"
+                  @check-change="handleCheckClick"
                 >
                   <span class="custom-tree-node" slot-scope="{ node, data }">
                     <div class="yxt-flex-between">
-                      <div style="margin-right: 50px">{{ data.name }}</div>
+                      <div style="margin-right: 80px;">{{ data.name }}</div>
                       <div>
                         <el-checkbox
                           v-for="(item, index) in data.menuPermission"
                           :key="index"
                           v-model="item.checked"
-                          >{{ item.name }}</el-checkbox
+                        >{{ item.name }}</el-checkbox
                         >
                       </div>
                     </div>
@@ -176,11 +177,11 @@ export default {
         },
         {
           value: 1,
-          label: '本部门数据权限'
+          label: '本部门及以下数据权限'
         },
         {
           value: 2,
-          label: '本部门及以下数据权限'
+          label: '本部门数据权限'
         },
         {
           value: 3,
@@ -320,6 +321,24 @@ export default {
       if (value !== 4) {
         // this.$refs.dept.setCheckedKeys([]);
       }
+    },
+    /**
+     * 菜单树点击,全选权限部分数据
+     * @param data
+     */
+    handleCheckClick (data, checked) {
+      const {
+        menuPermission,
+        children
+      } = data
+      for (let item of menuPermission) {
+        this.$set(item, 'checked', checked)
+      }
+      if (children) {
+        for (let item of children) {
+          this.$refs.menuTree.setChecked(item.id,checked)
+        }
+      }
     }
   },
   created () {
@@ -338,6 +357,7 @@ export default {
 .dept-tree::-webkit-scrollbar {
   display: none; /* Chrome Safari */
 }
+
 .dept-tree {
   height: 160px;
   overflow-y: scroll;
