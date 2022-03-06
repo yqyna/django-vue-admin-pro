@@ -11,6 +11,7 @@ import { request } from '@/api/service'
 import XEUtils from 'xe-utils'
 import { frameInRoutes } from '@/router/routes'
 const _import = require('@/libs/util.import.' + process.env.NODE_ENV)
+const pluginImport = require('@/libs/util.import.plugin')
 /**
  * @description 给菜单数据补充上 path 字段
  * @description https://github.com/d2-projects/d2-admin/issues/209
@@ -88,7 +89,7 @@ export const checkRouter = function (menuData) {
   for (const item of menuData) {
     try {
       if (item.path !== '' && item.component) {
-        _import(item.component)
+        (item.component && item.component.indexOf('@great-dream/') !== -1) ? pluginImport(item.component.replace('@great-dream/', '')) : _import(item.component)
       }
       result.push(item)
     } catch (err) {
@@ -107,7 +108,7 @@ export const handleRouter = function (menuData) {
       const obj = {
         path: item.path,
         name: item.component_name,
-        component: _import(item.component),
+        component: (item.component && item.component.indexOf('@great-dream/') !== -1) ? pluginImport(item.component.replace('@great-dream/', '')) : _import(item.component),
         meta: {
           title: item.name,
           auth: true,

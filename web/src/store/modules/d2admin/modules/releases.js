@@ -17,9 +17,9 @@ export default {
      */
     versionShow () {
       util.log.capsule('D2Admin', `v${process.env.VUE_APP_VERSION}`)
-      console.log('dvAdmin(Gitee)  https://gitee.com/liqianglog/django-vue-admin-pro')
-      console.log('演示地址   http://dvadmin.django.icu/')
-      console.log('文档地址  暂无')
+      console.log('DVAdmin(Gitee)：https://gitee.com/liqianglog/django-vue-admin-pro')
+      console.log('演示地址：https://demo.django-vue-admin.com')
+      console.log('文档地址：https://docs.django-vue-admin.com')
       console.log('请不要吝啬您的 star，谢谢 ~')
     }
   }

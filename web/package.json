@@ -1,6 +1,6 @@
 {
-  "name": "d2-crud-plus-with-d2admin-starter",
-  "version": "1.20.1",
+  "name": "django-vue-admin",
+  "version": "2.0.0",
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "start": "npm run serve",

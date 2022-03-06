@@ -1,7 +1,6 @@
 import cookies from './util.cookies'
 import db from './util.db'
 import log from './util.log'
-import { plugins } from '@/views/dvadmin_plugins/index.js'
 const util = {
   cookies,
   db,
@@ -35,7 +34,7 @@ util.open = function (url) {
  */
 util.baseURL = function () {
   var baseURL = process.env.VUE_APP_API
-  if (plugins.dvadmin_tenant_web) {
+  if (window.pluginsAll && window.pluginsAll.indexOf('dvadmin-tenant') !== -1) {
     // document.domain
     var host = baseURL.split('/')[2]
     var prot = host.split(':')[1] || 80
