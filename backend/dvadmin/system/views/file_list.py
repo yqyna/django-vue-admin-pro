@@ -24,8 +24,8 @@ class FileSerializer(CustomModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
-        validated_data['name'] = str(self.initial_data.get('url'))
-        validated_data['url'] = self.initial_data.get('url')
+        validated_data['name'] = str(self.initial_data.get('file'))
+        validated_data['url'] = self.initial_data.get('file')
         return super().create(validated_data)
 
 

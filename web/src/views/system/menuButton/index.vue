@@ -10,7 +10,8 @@
   <d2-container :class="{ 'page-compact': crud.pageOptions.compact }">
     <template slot="header">
       <div>
-        来自菜单 <el-tag> {{ $route.query.name }}</el-tag>
+        来自菜单
+        <el-tag> {{ $route.query.name }}</el-tag>
       </div>
     </template>
     <d2-crud-x ref="d2Crud" v-bind="_crudProps" v-on="_crudListeners">
@@ -22,7 +23,8 @@
         />
         <el-button-group>
           <el-button size="small" type="primary" @click="addRow"
-            ><i class="el-icon-plus" /> 新增</el-button
+          ><i class="el-icon-plus"/> 新增
+          </el-button
           >
         </el-button-group>
         <crud-toolbar
@@ -48,35 +50,36 @@
 
 <script>
 import * as api from './api'
-import { crudOptions } from './crud'
-import { d2CrudPlus } from 'd2-crud-plus'
+import {crudOptions} from './crud'
+import {d2CrudPlus} from 'd2-crud-plus'
+import router from "@/router";
 export default {
   name: 'menuButton',
   mixins: [d2CrudPlus.crud],
-  data () {
+  data() {
     return {}
   },
   methods: {
-    getCrudOptions () {
+    getCrudOptions() {
       return crudOptions(this)
     },
-    pageRequest (query) {
+    pageRequest(query) {
       const menuId = this.$route.params.id
-      return api.GetList({ ...query, menu: menuId })
+      return api.GetList({...query, menu: menuId})
     },
-    addRequest (row) {
+    addRequest(row) {
       const menuId = this.$route.params.id
       return api.createObj(row, menuId)
     },
-    updateRequest (row) {
+    updateRequest(row) {
       return api.UpdateObj(row)
     },
-    delRequest (row) {
+    delRequest(row) {
       return api.DelObj(row.id)
     },
     // 跳转到添加按钮界面
-    onLinkBtn () {
-      this.$router.push({ path: '/button' })
+    onLinkBtn() {
+      router.push({ path: '/button' })
     }
   }
 }

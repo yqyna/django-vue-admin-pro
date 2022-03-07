@@ -87,7 +87,7 @@ export const crudOptions = (vm) => {
             props: {
               uploader: {
                 action: uploadUrl,
-                name: 'url',
+                name: 'file',
                 headers: {
                   Authorization: 'JWT ' + util.cookies.get('token')
                 },
@@ -141,7 +141,7 @@ export const crudOptions = (vm) => {
             props: {
               uploader: {
                 action: uploadUrl,
-                name: 'url',
+                name: 'file',
                 headers: {
                   Authorization: 'JWT ' + util.cookies.get('token')
                 },

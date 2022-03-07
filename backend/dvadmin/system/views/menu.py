@@ -60,7 +60,7 @@ class WebRouterSerializer(CustomModelSerializer):
         else:
             # 根据当前角色获取权限按钮id集合
             permissionIds = self.request.user.role.values_list('permission', flat=True)
-            queryset = MenuButton.objects.filter(id__in=permissionIds).values_list('value', flat=True)
+            queryset = MenuButton.objects.filter(id__in=permissionIds,menu=instance.id).values_list('value', flat=True)
             if queryset:
                 return queryset
             else:
@@ -86,6 +86,7 @@ class MenuViewSet(CustomModelViewSet):
     create_serializer_class = MenuCreateSerializer
     update_serializer_class = MenuCreateSerializer
     search_fields = ['name', 'status']
+    filter_fields = ['parent','name', 'status','is_link','visible','cache','is_catalog']
     permission_classes = []
 
     def web_router(self, request):

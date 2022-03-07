@@ -84,12 +84,11 @@ class LoginSerializer(TokenObtainPairSerializer):
         user = Users.objects.filter(username=username).first()
         if user and user.check_password(password):  # check_password() 对明文进行加密,并验证
             data = super().validate(attrs)
-            refresh = self.get_token(self.user)
-
+            # refresh = self.get_token(self.user)
             data['name'] = self.user.name
             data['userId'] = self.user.id
-            data['refresh'] = str(refresh)
-            data['access'] = str(refresh.access_token)
+            # data['refresh'] = str(refresh)
+            # data['access'] = str(refresh.access_token)
             result = {
                 "code": 2000,
                 "msg": "请求成功",

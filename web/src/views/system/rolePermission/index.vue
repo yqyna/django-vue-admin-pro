@@ -8,13 +8,13 @@
 -->
 <template>
   <d2-container :class="{ 'page-compact': false }">
-    <SplitPane :min-percent="20" :default-percent="20" split="vertical">
-      <template slot="paneL">
+    <el-container style="height: 80vh; border: 1px solid #eee">
+      <el-aside width="300px" style="border:1px solid #eee">
         <div style="margin: 10px">
           <div class="yxt-flex-between">
             <div>
               <el-tag>
-                当前选择:{{ roleObj.name ? roleObj.name : "无" }}
+                当前选择:{{ roleObj.name ? roleObj.name : '无' }}
               </el-tag>
             </div>
             <div>
@@ -23,11 +23,11 @@
                 size="mini"
                 @click="submitPermisson"
                 v-permission="'Save'"
-                >保存
+              >保存
               </el-button>
             </div>
           </div>
-          <br />
+          <br/>
           <el-tree
             class="filter-tree"
             :data="data"
@@ -41,11 +41,11 @@
           >
           </el-tree>
         </div>
-      </template>
-      <template slot="paneR">
+      </el-aside>
+      <el-main>
         <SplitPane split="horizontal" :min-percent="20" :default-percent="30">
           <template slot="paneL">
-            <div style="margin: 10px">
+            <div style="margin: 10px;height: 50vh">
               <div>
                 <div style="margin-bottom: 20px">
                   <div class="yxt-flex-align-center">
@@ -95,7 +95,7 @@
             </div>
           </template>
           <template slot="paneR">
-            <div style="margin: 10px">
+            <div style="margin: 10px;height: 50vh">
               <div>
                 <div style="margin-bottom: 20px">
                   <div class="yxt-flex-align-center">
@@ -119,30 +119,32 @@
                   show-checkbox
                   :expand-on-click-node="false"
                   :default-checked-keys="menuCheckedKeys"
-                  :check-on-click-node="true"
-                  :check-strictly="true"
+                  :check-on-click-node="false"
                   empty-text="请先选择角色"
+                  :check-strictly="true"
+                  @check-change="handleCheckClick"
                 >
-                  <span class="custom-tree-node" slot-scope="{ node, data }">
-                    <div class="yxt-flex-between">
-                      <div style="margin-right: 50px">{{ data.name }}</div>
-                      <div>
-                        <el-checkbox
-                          v-for="(item, index) in data.menuPermission"
-                          :key="index"
-                          v-model="item.checked"
-                          >{{ item.name }}</el-checkbox
-                        >
-                      </div>
-                    </div>
-                  </span>
+                        <span class="custom-tree-node" slot-scope="{ node, data }">
+                          <div class="yxt-flex-between">
+                            <div style="margin-right: 80px;">{{ data.name }}</div>
+                            <div>
+                              <el-checkbox
+                                v-for="(item, index) in data.menuPermission"
+                                :key="index"
+                                v-model="item.checked"
+                              >{{ item.name }}</el-checkbox
+                              >
+                            </div>
+                          </div>
+                        </span>
                 </el-tree>
               </div>
             </div>
           </template>
         </SplitPane>
-      </template>
-    </SplitPane>
+        <el-backtop target=".el-main"></el-backtop>
+      </el-main>
+    </el-container>
   </d2-container>
 </template>
 
@@ -156,7 +158,7 @@ import SplitPane from 'vue-splitpane'
 Vue.component('SplitPane', SplitPane)
 export default {
   name: 'rolePermission',
-  data () {
+  data() {
     return {
       filterText: '',
       data: [],
@@ -196,20 +198,20 @@ export default {
     }
   },
   watch: {
-    filterText (val) {
+    filterText(val) {
       this.$refs.tree.filter(val)
     }
   },
   methods: {
-    filterNode (value, data) {
+    filterNode(value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
     },
-    getCrudOptions () {
+    getCrudOptions() {
       // eslint-disable-next-line no-undef
       return crudOptions(this)
     },
-    pageRequest (query) {
+    pageRequest(query) {
       return api.GetList(query).then(res => {
         res.map((value, index) => {
           value.node_id = index
@@ -220,7 +222,7 @@ export default {
         })
       })
     },
-    initNode () {
+    initNode() {
       if (this.$route.params.id && this.$refs.tree) {
         this.data.map(value => {
           if (this.$route.params.id === value.id) {
@@ -232,23 +234,23 @@ export default {
         this.nodeClick(node.data, node)
       }
     },
-    addRequest (row) {
+    addRequest(row) {
       return api.createObj(row)
     },
-    updateRequest (row) {
+    updateRequest(row) {
       return api.UpdateObj(row)
     },
-    delRequest (row) {
+    delRequest(row) {
       return api.DelObj(row.id)
     },
     // 获取部门数据
-    getDeptData () {
-      deptApi.GetList({ status: 1 }).then(ret => {
+    getDeptData() {
+      deptApi.GetList({status: 1}).then(ret => {
         this.deptOptions = ret.data.data
       })
     },
     // 获取菜单数据
-    getMenuData (data) {
+    getMenuData(data) {
       api.GetMenuData(data).then(res => {
         res.forEach(x => {
           // 根据当前角色的permission,对menuPermisson进行勾选处理
@@ -268,7 +270,7 @@ export default {
       })
     },
     // 角色树被点击
-    nodeClick (data, node, self) {
+    nodeClick(data, node, self) {
       this.roleObj = data
       this.getDeptData()
       this.getMenuData(data)
@@ -276,7 +278,7 @@ export default {
       this.deptCheckedKeys = data.dept
     },
     // 所有勾选菜单节点数据
-    getMenuAllCheckedKeys () {
+    getMenuAllCheckedKeys() {
       // 目前被选中的菜单节点
       const checkedKeys = this.$refs.menuTree.getCheckedKeys()
       // 半选中的菜单节点
@@ -285,7 +287,7 @@ export default {
       return checkedKeys
     },
     // 所有自定义权限时,勾选的部门节点数据
-    getDeptAllCheckedKeys () {
+    getDeptAllCheckedKeys() {
       // 目前被选中的部门节点
       const checkedKeys = this.$refs.dept.getCheckedKeys()
       // 半选中的部门节点
@@ -294,7 +296,7 @@ export default {
       return checkedKeys
     },
     // 提交修改
-    submitPermisson () {
+    submitPermisson() {
       this.roleObj.menu = this.getMenuAllCheckedKeys() // 获取选中的菜单
       this.roleObj.dept = this.getDeptAllCheckedKeys() // 获取选中的部门
       const menuData = XEUtils.toTreeArray(this.menuOptions)
@@ -316,13 +318,31 @@ export default {
       })
     },
     /** 选择角色权限范围触发 */
-    dataScopeSelectChange (value) {
+    dataScopeSelectChange(value) {
       if (value !== 4) {
         // this.$refs.dept.setCheckedKeys([]);
       }
+    },
+    /**
+     * 菜单树点击,全选权限部分数据
+     * @param data
+     */
+    handleCheckClick(data, checked) {
+      const {
+        menuPermission,
+        children
+      } = data
+      for (let item of menuPermission) {
+        this.$set(item, 'checked', checked)
+      }
+      if (children) {
+        for (let item of children) {
+          this.$refs.menuTree.setChecked(item.id, checked)
+        }
+      }
     }
   },
-  created () {
+  created() {
     this.pageRequest()
   }
 }
@@ -338,6 +358,7 @@ export default {
 .dept-tree::-webkit-scrollbar {
   display: none; /* Chrome Safari */
 }
+
 .dept-tree {
   height: 160px;
   overflow-y: scroll;

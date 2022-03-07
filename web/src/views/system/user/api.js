@@ -6,7 +6,7 @@
  * 联系Qq:1638245306
  * @文件介绍: 用户接口
  */
-import { request } from '@/api/service'
+import { request,downloadFile } from '@/api/service'
 
 export const urlPrefix = '/api/system/user/'
 
@@ -41,3 +41,15 @@ export function DelObj (id) {
     data: { id }
   })
 }
+
+/**
+ * 导出
+ * @param params
+ */
+export function exportData (params) {
+  return downloadFile({
+    url:urlPrefix+'export/',
+    params:params
+  })
+}
+

@@ -16,7 +16,7 @@
         />
         <span class="el-input__suffix">
           <span class="el-input__suffix-inner">
-            <i class="el-input__icon el-icon-arrow-down" @click="openDialog" />
+            <i class="el-input__icon el-icon-arrow-down" @click="openDialog"/>
           </span>
         </span>
       </div>
@@ -41,7 +41,7 @@
       custom-class="d2p-tree-selector-dialog"
       :title="dialogTitle"
       :visible.sync="dialogVisible"
-      width="40%"
+      width="50%"
       append-to-body
     >
       <div class="tree-wrapper">
@@ -61,6 +61,8 @@
             :data="_options"
             ref="elTree"
             :auto-resize="true"
+            @radio-change="radioChange"
+            @checkbox-change="checkboxChange"
           >
             <template #pager>
               <vxe-pager
@@ -74,7 +76,7 @@
                   'NextPage',
                   'NextJump',
                   'FullJump',
-                  'Total'
+                  'Total',
                 ]"
                 :current-page.sync="_elProps.page"
                 :page-size.sync="_elProps.limit"
@@ -90,8 +92,8 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">{{ cancelText }}</el-button>
         <el-button type="primary" @click="selectSubmit">{{
-          confirmText
-        }}</el-button>
+            confirmText
+          }}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -148,11 +150,20 @@ export default {
       default: false
     },
     // 是否忽略选中节点的子节点
-    ignoreFullCheckedChildren: { type: Boolean, default: true },
+    ignoreFullCheckedChildren: {
+      type: Boolean,
+      default: true
+    },
     // 是否只返回叶子节点
-    leafOnly: { type: Boolean, default: false },
+    leafOnly: {
+      type: Boolean,
+      default: false
+    },
     // 是否包含半选节点
-    includeHalfChecked: { type: Boolean, default: false },
+    includeHalfChecked: {
+      type: Boolean,
+      default: false
+    },
     // el-tree的属性配置
     elProps: {
       type: Object
@@ -181,7 +192,8 @@ export default {
       collapseTags: false,
       selected: [],
       dialogVisible: false,
-      filterText: undefined
+      filterText: undefined,
+      requestUrl: null
     }
   },
   created () {
@@ -193,10 +205,12 @@ export default {
   computed: {
     _elProps () {
       const defaultElProps = {
-        showCheckbox: this.multiple,
+        // showCheckbox: this.multiple,
         highlightCurrent: !this.multiple,
         props: {},
-        columns: []
+        columns: [],
+        border: true,
+        resizable: true
       }
       if (this.dict != null) {
         if (this.dict.label != null) {
@@ -208,11 +222,18 @@ export default {
         if (this.dict.children != null) {
           defaultElProps.props.children = this.dict.children
         }
+        // 加上树形的配置
+        if (this.dict.isTree) {
+          defaultElProps.treeConfig = this.elProps.treeConfig
+        }
       }
       defaultElProps.nodeKey = defaultElProps.props.value
       lodash.merge(defaultElProps, this.elProps)
 
       if (this.multiple) {
+        defaultElProps.checkboxConfig = this.elProps.checkboxConfig
+          ? this.elProps.checkboxConfig
+          : {}
         defaultElProps.columns = [
           {
             type: 'checkbox',
@@ -221,6 +242,9 @@ export default {
           ...defaultElProps.columns
         ]
       } else {
+        defaultElProps.radioConfig = this.elProps.radioConfig
+          ? this.elProps.radioConfig
+          : {}
         defaultElProps.columns = [
           {
             type: 'radio',
@@ -239,7 +263,7 @@ export default {
   watch: {
     filterText (val) {
       // this.$refs.elTree.filter(val);
-      this.searchTableData(val)
+      this.searchTableData()
     }
   },
   methods: {
@@ -268,7 +292,7 @@ export default {
       }
       if (this.dict && this.dict.getNodes) {
         // log.danger("getNodes:", arrValue);
-        this.dict.getNodes(arrValue).then(nodes => {
+        this.dict.getNodes(arrValue).then((nodes) => {
           this.selectedNodes(nodes, value)
         })
       } else {
@@ -310,9 +334,9 @@ export default {
       setTimeout(() => {
         if (this.selected != null) {
           const ids = this.selected.map(
-            item => item[this._elProps.props.value]
+            (item) => item[this._elProps.props.value]
           )
-          ids.forEach(id => {
+          ids.forEach((id) => {
             const current = this.$refs.elTree.store.nodesMap[id]
             if (current != null) {
               this.doExpandParent(current)
@@ -430,7 +454,7 @@ export default {
         const inputChildNodes = this.$refs.reference.$el.childNodes
         const input = [].filter.call(
           inputChildNodes,
-          item => item.tagName === 'INPUT'
+          (item) => item.tagName === 'INPUT'
         )[0]
         const tags = this.$refs.tags
         const sizeInMap = this.initialInputHeight || 40
@@ -438,11 +462,11 @@ export default {
           this.selected.length === 0
             ? sizeInMap + 'px'
             : Math.max(
-              tags
-                ? tags.clientHeight + (tags.clientHeight > sizeInMap ? 6 : 0)
-                : 0,
-              sizeInMap
-            ) + 'px'
+            tags
+              ? tags.clientHeight + (tags.clientHeight > sizeInMap ? 6 : 0)
+              : 0,
+            sizeInMap
+          ) + 'px'
         input.style.height = height
         if (this.visible && this.emptyText !== false) {
           this.broadcast('ElSelectDropdown', 'updatePopper')
@@ -488,7 +512,10 @@ export default {
       }
     },
     // 分页事件
-    handlePageChange ({ currentPage, pageSize }) {
+    handlePageChange ({
+      currentPage,
+      pageSize
+    }) {
       const that = this
       that._elProps.page = currentPage
       that._elProps.limit = pageSize
@@ -498,6 +525,7 @@ export default {
     searchTableData () {
       const that = this
       let params
+
       if (that.pagination) {
         params = {
           page: that._elProps.page,
@@ -509,46 +537,78 @@ export default {
           search: that.filterText
         }
       }
+      let url
+      if (typeof that.dict.url === 'function') {
+        const form = that.d2CrudContext.getForm()
+        url = that.dict.url(that.dict, { form })
+      } else {
+        url = that.dict.url
+      }
       request({
-        url: that.dict.url,
+        url: url,
         params: params
-      }).then(ret => {
+      }).then((ret) => {
         that._elProps.page = ret.data.page
         that._elProps.limit = ret.data.limit
         that._elProps.total = ret.data.total
         that.$set(that, 'dictOptions', ret.data.data)
       })
+    },
+    /**
+     * 表格单选事件
+     */
+    radioChange ({ checked, row, rowIndex, $rowIndex, column, columnIndex, $columnIndex, $event }) {
+      this.$emit('radioChange', {
+        row,
+        rowIndex
+      })
+    },
+    /**
+     * 表格多选事件
+     */
+    checkboxChange({ checked, row, rowIndex, $rowIndex, column, columnIndex, $columnIndex, $event }){
+      this.$emit('checkboxChange', {
+        checked, row, rowIndex, $rowIndex, column, columnIndex, $columnIndex, $event
+      })
     }
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+
 .d2p-tree-selector {
   width: 100%;
+
   .el-cascader {
     width: 100%;
   }
+
   .is-disabled .el-tag__close.el-icon-close {
     display: none;
   }
 }
+
 .d2p-tree-selector-dialog {
   &.el-dialog {
-    max-height: 70vh;
+    max-height: 80vh;
     display: flex;
     flex-direction: column;
+
     .el-dialog__body {
       flex: 1;
       overflow-y: auto;
     }
+
     .el-dialog__header {
       padding: 20px 20px 20px;
       border-bottom: 1px solid #eee;
     }
+
     .el-dialog__footer {
       padding: 10px 20px 10px;
       border-top: 1px solid #eee;
     }
   }
 }
+
 </style>

@@ -73,28 +73,34 @@ class CustomPermission(BasePermission):
                 _permission_classes = getattr(head_kwargs, 'permission_classes', None)
                 if _permission_classes is None:
                     return True
-
         # 判断是否是超级管理员
         if request.user.is_superuser:
             return True
         else:
             api = request.path  # 当前请求接口
             method = request.method  # 当前请求方法
-            print(ApiWhiteList.objects.values("url", "method"))
             methodList = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
             method = methodList.index(method)
             # ***接口白名单***
-            url = ReUUID(api)
-            if url:
-                apiWhiteList_instance = ApiWhiteList.objects.filter(url__regex=url, method=method).first()
-                print(apiWhiteList_instance)
-                if apiWhiteList_instance:
-                    return True
+            api_white_list = ApiWhiteList.objects.values(permission__api=F('url'), permission__method=F('method'))
+            api_white_list = [
+                str(item.get('permission__api').replace('{id}', '.*?')) + ":" + str(item.get('permission__method')) for
+                item in api_white_list if item.get('permission__api')]
             # ********#
             if not hasattr(request.user, "role"):
                 return False
             userApiList = request.user.role.values('permission__api', 'permission__method')  # 获取当前用户的角色拥有的所有接口
-            ApiList = [str(item.get('permission__api')) + ":" + str(item.get('permission__method')) for item in
-                       userApiList]
-            now_api = api + ":" + str(method)
-            return now_api in ApiList
+            ApiList = [
+                str(item.get('permission__api').replace('{id}', '.*?')) + ":" + str(item.get('permission__method')) for
+                item in
+                       userApiList if item.get('permission__api')]
+            new_api_ist =  api_white_list + ApiList
+            new_api = api + ":" + str(method)
+            for item in new_api_ist:
+                matchObj = re.match(item, new_api, re.M | re.I)
+                if matchObj is None:
+                    continue
+                else:
+                    return True
+            else:
+                return False
