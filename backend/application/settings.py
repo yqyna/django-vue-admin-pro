@@ -345,6 +345,5 @@ CELERY_TIMEZONE = 'Asia/Shanghai'  # celery 时区问题
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # dvadmin 插件
 REGISTER_PLUGINS = (
-    ALL_MODELS_OBJECTS = [] # 所有app models 对象
 # ""
 )
