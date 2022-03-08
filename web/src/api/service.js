@@ -1,18 +1,19 @@
 import axios from 'axios'
 import Adapter from 'axios-mock-adapter'
-import { get } from 'lodash'
+import {get} from 'lodash'
 import util from '@/libs/util'
-import { dataNotFound, errorCreate, errorLog } from './tools'
+import {dataNotFound, errorCreate, errorLog} from './tools'
 import router from '@/router'
 import qs from 'qs'
 import {Message} from "element-ui";
+
 /**
  * @description 创建请求实例
  */
 axios.defaults.retry = 1
 axios.defaults.retryDelay = 1000
 
-export function getErrorMessage (msg) {
+export function getErrorMessage(msg) {
   if (typeof msg === 'string') {
     return msg
   }
@@ -20,13 +21,13 @@ export function getErrorMessage (msg) {
     if (msg.code === 'token_not_valid') {
       util.cookies.remove('token')
       util.cookies.remove('uuid')
-      router.push({ path: '/login' })
+      router.push({path: '/login'})
       return '登录超时，请重新登录！'
     }
     if (msg.code === 'user_not_found') {
       util.cookies.remove('token')
       util.cookies.remove('uuid')
-      router.push({ path: '/login' })
+      router.push({path: '/login'})
       return '用户无效，请重新登录！'
     }
     return Object.values(msg)
@@ -36,12 +37,13 @@ export function getErrorMessage (msg) {
   }
   return msg
 }
-function createService () {
+
+function createService() {
   // 创建一个 axios 实例
   const service = axios.create({
     baseURL: process.env.VUE_APP_API_URL,
     timeout: 20000,
-    paramsSerializer: (params) => qs.stringify(params, { indices: false })
+    paramsSerializer: (params) => qs.stringify(params, {indices: false})
   })
   // 请求拦截
   service.interceptors.request.use(
@@ -58,7 +60,7 @@ function createService () {
       // dataAxios 是 axios 返回数据中的 data
       const dataAxios = response.data
       // 这个状态码是和后端约定的
-      const { code } = dataAxios
+      const {code} = dataAxios
       // 根据 code 进行判断
       if (code === undefined) {
         // 如果没有 code 代表这不是项目后端开发的接口 比如可能是 D2Admin 请求最新版本
@@ -72,35 +74,46 @@ function createService () {
             // return dataAxios.data
             return dataAxios
           case 401:
-            refreshTken().then(res => {
-              util.cookies.set('token', res.access)
-              // token失效后，重置token 然后再次请求1次
-              var config = response.config
-              if (!config) return Promise.reject(response)
-              config.__retryCount = config.__retryCount || 0
-              if (config.__retryCount >= axios.defaults.retry) {
-                return Promise.reject(response)
-              }
-              config.__retryCount += 1
-              var backoff = new Promise(function (resolve) {
-                setTimeout(function () {
-                  resolve()
-                }, config.retryDelay || 1000)
+            const refresh = util.cookies.remove('refresh') || undefined
+            if (refresh) {
+
+              refreshTken().then(res => {
+                util.cookies.set('token', res.access)
+                // token失效后，重置token 然后再次请求1次
+                var config = response.config
+                if (!config) return Promise.reject(response)
+                config.__retryCount = config.__retryCount || 0
+                if (config.__retryCount >= axios.defaults.retry) {
+                  return Promise.reject(response)
+                }
+                config.__retryCount += 1
+                var backoff = new Promise(function (resolve) {
+                  setTimeout(function () {
+                    resolve()
+                  }, config.retryDelay || 1000)
+                })
+
+                return backoff.then(function () {
+                  return createRequestFunction(createService())(config)
+                })
+              }).catch(e => {
+                if (typeof dataAxios.msg === 'string') {
+                  errorCreate(`${dataAxios.msg}`)
+                } else {
+                  // 删除cookie
+                  util.cookies.remove('token')
+                  util.cookies.remove('uuid')
+                  util.cookies.remove('refresh')
+                  errorCreate('登录信息过期，请重新登录')
+                  router.push({path: '/login'})
+                }
               })
-              return backoff.then(function () {
-                return createRequestFunction(createService())(config)
-              })
-            }).catch(e => {
-              if (typeof dataAxios.msg === 'string') {
-                errorCreate(`${dataAxios.msg}`)
-              } else {
-                // 删除cookie
-                util.cookies.remove('token')
-                util.cookies.remove('uuid')
-                router.push({ path: '/login' })
-                errorCreate('登录信息过期，请重新登录')
-              }
-            })
+            }else{
+              util.cookies.remove('token')
+              util.cookies.remove('uuid')
+              util.cookies.remove('refresh')
+              router.push({path: '/login'})
+            }
             break
           case 404:
             dataNotFound(`${dataAxios.msg}`)
@@ -129,10 +142,9 @@ function createService () {
           refreshTken().then(res => {
             util.cookies.set('token', res.access)
           }).catch(e => {
-            router.push({ name: '/login' })
+            router.push({name: '/login'})
             error.message = '未认证，请登录'
           })
-
           break
         case 403:
           error.message = '拒绝访问'
@@ -175,7 +187,7 @@ function createService () {
  * @description 创建请求方法
  * @param {Object} service axios 实例
  */
-function createRequestFunction (service) {
+function createRequestFunction(service) {
   // 校验是否为租户模式。租户模式把域名替换成 域名 加端口
   return function (config) {
     const token = util.cookies.get('token')
@@ -236,7 +248,7 @@ function getBlob(url, cb) {
   var xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
   xhr.responseType = "blob";
-  xhr.onload = function() {
+  xhr.onload = function () {
     if (xhr.status === 200) {
       cb(xhr.response);
     }
@@ -277,20 +289,20 @@ function saveAs(blob, filename) {
  * @param params
  * @param filename
  */
-export const downloadFile = function({url,params}) {
+export const downloadFile = function ({url, params}) {
   request({
     url: url,
     method: 'get',
     params: params
   }).then(res => {
-     const {code,data,msg} = res
-    if(code===2000){
+    const {code, data, msg} = res
+    if (code === 2000) {
       const url = data.url
       const fileName = data.name || '导出'
-      getBlob(process.env.VUE_APP_API + url, function(blob) {
+      getBlob(process.env.VUE_APP_API + url, function (blob) {
         saveAs(blob, fileName);
       });
-    }else{
+    } else {
       Message({
         message: msg,
         type: 'error',
@@ -298,5 +310,5 @@ export const downloadFile = function({url,params}) {
       })
     }
 
- })
+  })
 }

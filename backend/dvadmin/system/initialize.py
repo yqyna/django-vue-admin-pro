@@ -94,29 +94,29 @@ class Initialize(CoreInitialize):
             {
                 "component": "system/whiteList/index",
                 "component_name": "whiteList",
-                "icon": "",
+                "icon": "compass",
                 "id": "b6a8bce3-89dc-4fc3-9745-9448e75196b5",
                 "name": "接口白名单",
                 "parent_id": "54f769b0-3dff-416c-8102-e55ec44827cc",
                 "sort": 10,
                 "web_path": "/whiteList"
             },
-            {
-                "id": "4f71761d-ef66-4f35-ac5c-0721b6c6aa93",
-                "modifier": "456b688c-8ad5-46de-bc2e-d41d8047bd42",
-                "icon": "",
-                "name": "系统配置",
-                "sort": 1,
-                "is_link": 0,
-                "web_path": "/systemConfig",
-                "component": "system/systemConfig/index",
-                "component_name": "systemConfig",
-                "status": 1,
-                "cache": 0,
-                "visible": 1,
-                "parent_id": "54f769b0-3dff-416c-8102-e55ec44827cc",
-                "is_catalog": 0
-            }
+            # {
+            #     "id": "4f71761d-ef66-4f35-ac5c-0721b6c6aa93",
+            #     "modifier": "456b688c-8ad5-46de-bc2e-d41d8047bd42",
+            #     "icon": "",
+            #     "name": "系统配置",
+            #     "sort": 1,
+            #     "is_link": 0,
+            #     "web_path": "/systemConfig",
+            #     "component": "system/systemConfig/index",
+            #     "component_name": "systemConfig",
+            #     "status": 1,
+            #     "cache": 0,
+            #     "visible": 1,
+            #     "parent_id": "54f769b0-3dff-416c-8102-e55ec44827cc",
+            #     "is_catalog": 0
+            # }
         ]
         self.save(Menu, self.menu_data, "菜单表")
 
