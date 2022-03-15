@@ -10,9 +10,10 @@ import hashlib
 
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
+from rest_framework.decorators import action
 
 from dvadmin.system.models import Users
-from dvadmin.utils.json_response import SuccessResponse, ErrorResponse
+from dvadmin.utils.json_response import SuccessResponse, ErrorResponse, DetailResponse
 from dvadmin.utils.serializers import CustomModelSerializer
 from dvadmin.utils.validator import CustomUniqueValidator
 from dvadmin.utils.viewset import CustomModelViewSet
@@ -146,6 +147,7 @@ class UserViewSet(QueryArgumentsMixin,CustomModelViewSet):
                          'gender': '用户性别(男/女/未知)',
                          'is_active': '帐号状态(启用/禁用)', 'password': '登录密码', 'dept': '部门ID', 'role': '角色ID'}
 
+    @action(methods=['GET'],detail=True,permission_classes=[])
     def user_info(self, request):
         """获取当前用户信息"""
         user = request.user
@@ -155,14 +157,16 @@ class UserViewSet(QueryArgumentsMixin,CustomModelViewSet):
             "gender": user.gender,
             "email": user.email
         }
-        return SuccessResponse(data=result, msg="获取成功")
+        return DetailResponse(data=result, msg="获取成功")
 
+    @action(methods=['PUT'], detail=True, permission_classes=[])
     def update_user_info(self, request):
         """修改当前用户信息"""
         user = request.user
         Users.objects.filter(id=user.id).update(**request.data)
-        return SuccessResponse(data=None, msg="修改成功")
+        return DetailResponse(data=None, msg="修改成功")
 
+    @action(methods=['PUT'], detail=True, permission_classes=[])
     def change_password(self, request, *args, **kwargs):
         """密码修改"""
         instance = Users.objects.filter(id=kwargs.get('pk')).first()
@@ -176,7 +180,7 @@ class UserViewSet(QueryArgumentsMixin,CustomModelViewSet):
             elif instance.check_password(old_pwd):
                 instance.password = make_password(new_pwd)
                 instance.save()
-                return SuccessResponse(data=None, msg="修改成功")
+                return DetailResponse(data=None, msg="修改成功")
             else:
                 return ErrorResponse(msg="旧密码不正确")
         else:

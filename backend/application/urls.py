@@ -23,7 +23,7 @@ from rest_framework_simplejwt.views import (
 )
 
 from application import settings
-from dvadmin.system.views.login import LoginView, CaptchaView, ApiLogin
+from dvadmin.system.views.login import LoginView, CaptchaView, ApiLogin, LogoutView
 from dvadmin.utils.swagger import CustomOpenAPISchemaGenerator
 
 schema_view = get_schema_view(
@@ -48,6 +48,7 @@ urlpatterns = [
     path(r'redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('api/system/', include('dvadmin.system.urls')),
     path('api/login/', LoginView.as_view(), name='token_obtain_pair'),
+    path('api/logout/', LogoutView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/captcha/', CaptchaView.as_view()),

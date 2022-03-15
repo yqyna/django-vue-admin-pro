@@ -23,7 +23,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from dvadmin.system.models import Users
-from dvadmin.utils.json_response import SuccessResponse, ErrorResponse
+from dvadmin.utils.json_response import SuccessResponse, ErrorResponse, DetailResponse
 from dvadmin.utils.serializers import CustomModelSerializer
 from dvadmin.utils.validator import CustomValidationError
 
@@ -81,10 +81,11 @@ class LoginSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         username = attrs['username']
         password = attrs['password']
-        user = Users.objects.filter(username=username).first()
+        user = Users.objects.filter(username=username,is_active=True).first()
+        # token = AccessToken.for_user(user)
+        # print(111,token)
         if user and user.check_password(password):  # check_password() 对明文进行加密,并验证
             data = super().validate(attrs)
-            # refresh = self.get_token(self.user)
             data['name'] = self.user.name
             data['userId'] = self.user.id
             # data['refresh'] = str(refresh)
@@ -109,6 +110,13 @@ class LoginView(TokenObtainPairView):
     """
     serializer_class = LoginSerializer
     permission_classes = []
+
+
+
+
+class LogoutView(APIView):
+    def post(self,request):
+        return DetailResponse(msg="注销成功")
 
 
 class ApiLoginSerializer(CustomModelSerializer):

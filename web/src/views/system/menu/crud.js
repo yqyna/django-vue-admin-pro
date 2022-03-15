@@ -62,7 +62,7 @@ export const crudOptions = (vm) => {
         disabled () {
           return !vm.hasPermissions('Update')
         },
-        text: ' 按钮配置',
+        text: ' 菜单按钮',
         type: 'warning',
         size: 'small',
         emit: 'createPermission'
@@ -137,15 +137,6 @@ export const crudOptions = (vm) => {
           getData: (url, dict, { form, component }) => { // 配置此参数会覆盖全局的getRemoteDictFunc
             return request({ url: url }).then(ret => {
               const responseData = ret.data.data
-              if (form.id) {
-                let idIndex
-                responseData.forEach((item, index) => {
-                  if (item.id === form.id) {
-                    idIndex = index
-                  }
-                })
-                responseData.splice(idIndex, 1)
-              }
               const result = XEUtils.toArrayTree(responseData, { parentKey: 'parent', strict: true })
               return [{ id: null, name: '根节点', children: result }]
             })
