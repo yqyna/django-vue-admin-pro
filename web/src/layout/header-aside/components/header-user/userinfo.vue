@@ -132,7 +132,7 @@ export default {
       activeName: 'userInfo',
       userInfo: {
         name: '',
-        gender: 1,
+        gender: '',
         mobile: '',
         avatar: '',
         email: ''
@@ -176,7 +176,7 @@ export default {
         method: 'get',
         params: {}
       }).then((res) => {
-        _self.userInfo = res.data.data
+        _self.userInfo = res.data
       })
     },
     /**
@@ -216,6 +216,7 @@ export default {
       const _self = this
       if (tab.paneName === 'userInfo') {
         _self.$refs.userPasswordForm.resetFields()
+        _self.getCurrentUserInfo()
       } else {
         _self.$refs.userInfoForm.resetFields()
       }

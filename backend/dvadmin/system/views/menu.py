@@ -7,6 +7,7 @@
 @Remark: 菜单模块
 """
 from rest_framework import serializers
+from rest_framework.decorators import action
 
 from dvadmin.system.models import Menu, MenuButton, Button
 from dvadmin.utils.json_response import SuccessResponse
@@ -89,6 +90,7 @@ class MenuViewSet(CustomModelViewSet):
     filter_fields = ['parent','name', 'status','is_link','visible','cache','is_catalog']
     permission_classes = []
 
+    @action(methods=['GET'], detail=True, permission_classes=[])
     def web_router(self, request):
         """用于前端获取当前角色的路由"""
         user = request.user

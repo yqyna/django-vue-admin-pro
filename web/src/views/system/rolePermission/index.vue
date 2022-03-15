@@ -126,7 +126,7 @@
                 >
                         <span class="custom-tree-node" slot-scope="{ node, data }">
                           <div class="yxt-flex-between">
-                            <div style="margin-right: 80px;">{{ data.name }}</div>
+                            <div :style="{width:((4-node.level)*18+150)+'px'}">{{ data.name }}</div>
                             <div>
                               <el-checkbox
                                 v-for="(item, index) in data.menuPermission"

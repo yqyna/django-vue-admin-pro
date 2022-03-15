@@ -40,15 +40,15 @@ system_url.register(r'system_config', SystemConfigViewSet)
 
 
 urlpatterns = [
-    path('role/role_id_to_menu/<str:pk>/', RoleViewSet.as_view({'get': 'roleId_to_menu'})),
+    path('role/roleId_get_menu/<int:pk>/', RoleViewSet.as_view({'get': 'roleId_get_menu'})),
     path('menu/web_router/', MenuViewSet.as_view({'get': 'web_router'})),
     path('user/user_info/', UserViewSet.as_view({'get': 'user_info', 'put': 'update_user_info'})),
-    path('user/change_password/<str:pk>/', UserViewSet.as_view({'put': 'change_password'})),
+    path('user/change_password/<int:pk>/', UserViewSet.as_view({'put': 'change_password'})),
     path('user/export/', UserViewSet.as_view({'get': 'export_data', })),
     path('user/import/',UserViewSet.as_view({'get': 'import_data', 'post': 'import_data'})),
     path('system_config/save_content/', SystemConfigViewSet.as_view({'put': 'save_content'})),
     path('system_config/get_association_table/', SystemConfigViewSet.as_view({'get': 'get_association_table'})),
-    path('system_config/get_table_data/<str:pk>/', SystemConfigViewSet.as_view({'get': 'get_table_data'})),
+    path('system_config/get_table_data/<int:pk>/', SystemConfigViewSet.as_view({'get': 'get_table_data'})),
     path('system_config/get_relation_info/', SystemConfigViewSet.as_view({'get': 'get_relation_info'})),
 ]
 urlpatterns += system_url.urls

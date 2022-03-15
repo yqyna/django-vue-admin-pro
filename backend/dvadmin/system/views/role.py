@@ -7,6 +7,7 @@
 @Remark: 角色管理
 """
 from rest_framework import serializers
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 
 from dvadmin.system.models import Role, Menu
@@ -76,13 +77,13 @@ class RoleViewSet(CustomModelViewSet):
     retrieve:单例
     destroy:删除
     """
-    permission_classes = [IsAuthenticated]
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
     create_serializer_class = RoleCreateUpdateSerializer
     update_serializer_class = RoleCreateUpdateSerializer
 
-    def roleId_to_menu(self, request, *args, **kwargs):
+    @action(methods=['GET'], detail=True, permission_classes=[])
+    def roleId_get_menu(self, request, *args, **kwargs):
         """通过角色id获取该角色用于的菜单"""
         # instance = self.get_object()
         # queryset = instance.menu.all()
@@ -90,7 +91,3 @@ class RoleViewSet(CustomModelViewSet):
         serializer = MenuPermissonSerializer(queryset, many=True)
         return SuccessResponse(data=serializer.data)
 
-    def role_data(self,request,*args,**kwargs):
-        instance = self.get_object()
-        serializer = RoleSerializer(instance)
-        return SuccessResponse(data=serializer.data)
