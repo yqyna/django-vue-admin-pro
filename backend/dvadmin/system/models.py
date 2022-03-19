@@ -58,7 +58,7 @@ class Post(CoreModel):
 
 class Role(CoreModel):
     name = models.CharField(max_length=64, verbose_name="角色名称", help_text="角色名称")
-    key = models.CharField(max_length=64,unique=True, verbose_name="权限字符", help_text="权限字符")
+    key = models.CharField(max_length=64, unique=True, verbose_name="权限字符", help_text="权限字符")
     sort = models.IntegerField(default=1, verbose_name="角色顺序", help_text="角色顺序")
     status = models.BooleanField(default=True, verbose_name="角色状态", help_text="角色状态")
     admin = models.BooleanField(default=False, verbose_name="是否为admin", help_text="是否为admin")
@@ -102,8 +102,8 @@ class Dept(CoreModel):
 
 
 class Button(CoreModel):
-    name = models.CharField(max_length=64,unique=True, verbose_name="权限名称", help_text="权限名称")
-    value = models.CharField(max_length=64,unique=True, verbose_name="权限值", help_text="权限值")
+    name = models.CharField(max_length=64, unique=True, verbose_name="权限名称", help_text="权限名称")
+    value = models.CharField(max_length=64, unique=True, verbose_name="权限值", help_text="权限值")
 
     class Meta:
         db_table = table_prefix + "system_button"
@@ -123,13 +123,13 @@ class Menu(CoreModel):
         (1, "是"),
     )
     is_link = models.BooleanField(default=False, verbose_name="是否外链", help_text="是否外链")
-    is_catalog = models.BooleanField( default=False, verbose_name="是否目录", help_text="是否目录")
+    is_catalog = models.BooleanField(default=False, verbose_name="是否目录", help_text="是否目录")
     web_path = models.CharField(max_length=128, verbose_name="路由地址", null=True, blank=True, help_text="路由地址")
     component = models.CharField(max_length=128, verbose_name="组件地址", null=True, blank=True, help_text="组件地址")
     component_name = models.CharField(max_length=50, verbose_name="组件名称", null=True, blank=True, help_text="组件名称")
-    status = models.BooleanField(default=True, blank=True,verbose_name="菜单状态", help_text="菜单状态")
-    cache = models.BooleanField(default=False,blank=True, verbose_name="是否页面缓存", help_text="是否页面缓存")
-    visible = models.BooleanField(default=True,blank=True, verbose_name="侧边栏中是否显示", help_text="侧边栏中是否显示")
+    status = models.BooleanField(default=True, blank=True, verbose_name="菜单状态", help_text="菜单状态")
+    cache = models.BooleanField(default=False, blank=True, verbose_name="是否页面缓存", help_text="是否页面缓存")
+    visible = models.BooleanField(default=True, blank=True, verbose_name="侧边栏中是否显示", help_text="侧边栏中是否显示")
 
     class Meta:
         db_table = table_prefix + "system_menu"
@@ -166,7 +166,7 @@ class Dictionary(CoreModel):
     parent = models.ForeignKey(to='self', related_name='sublist', db_constraint=False, on_delete=models.PROTECT,
                                blank=True, null=True,
                                verbose_name="父级", help_text="父级")
-    status = models.BooleanField(default=True,blank=True, verbose_name="状态", help_text="状态")
+    status = models.BooleanField(default=True, blank=True, verbose_name="状态", help_text="状态")
     sort = models.IntegerField(default=1, verbose_name="显示排序", null=True, blank=True, help_text="显示排序")
     remark = models.CharField(max_length=2000, blank=True, null=True, verbose_name="备注", help_text="备注")
 
@@ -193,32 +193,6 @@ class OperationLog(CoreModel):
     class Meta:
         db_table = table_prefix + 'system_operation_log'
         verbose_name = '操作日志'
-        verbose_name_plural = verbose_name
-        ordering = ('-create_datetime',)
-
-
-def media_img_name(instance, filename):
-    h = instance.md5sum
-    basename, ext = os.path.splitext(filename)
-    return os.path.join('media/imgs', h[0:1], h[1:2], h + ext.lower())
-
-
-class ImgList(CoreModel):
-    name = models.CharField(max_length=50, null=True, blank=True, verbose_name="名称", help_text="名称")
-    url = models.ImageField(upload_to=media_img_name)
-    md5sum = models.CharField(max_length=36, blank=True, verbose_name="文件md5", help_text="文件md5")
-
-    def save(self, *args, **kwargs):
-        if not self.md5sum:  # file is new
-            md5 = hashlib.md5()
-            for chunk in self.url.chunks():
-                md5.update(chunk)
-            self.md5sum = md5.hexdigest()
-        super(ImgList, self).save(*args, **kwargs)
-
-    class Meta:
-        db_table = table_prefix + 'img_list'
-        verbose_name = '图片管理'
         verbose_name_plural = verbose_name
         ordering = ('-create_datetime',)
 
@@ -270,7 +244,7 @@ class Area(CoreModel):
 
 
 class ApiWhiteList(CoreModel):
-    url = models.CharField(max_length=200,help_text="url地址",verbose_name="url")
+    url = models.CharField(max_length=200, help_text="url地址", verbose_name="url")
     METHOD_CHOICES = (
         (0, "GET"),
         (1, "POST"),
@@ -285,7 +259,6 @@ class ApiWhiteList(CoreModel):
         verbose_name = '接口白名单'
         verbose_name_plural = verbose_name
         ordering = ('-create_datetime',)
-
 
 
 class SystemConfig(CoreModel):
@@ -310,8 +283,8 @@ class SystemConfig(CoreModel):
         (9, 'imgs'),
         (10, 'files'),
         (11, 'array'),
-        (12,'foreignkey'),
-        (13,'manytomany'),
+        (12, 'foreignkey'),
+        (13, 'manytomany'),
     )
     form_item_type = models.IntegerField(choices=FORM_ITEM_TYPE_LIST, verbose_name="表单类型", help_text="表单类型", default=0,
                                          blank=True)

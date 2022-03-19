@@ -15,7 +15,6 @@ from dvadmin.system.views.button import ButtonViewSet
 from dvadmin.system.views.dept import DeptViewSet
 from dvadmin.system.views.dictionary import DictionaryViewSet
 from dvadmin.system.views.file_list import FileViewSet
-from dvadmin.system.views.img_list import ImgViewSet
 from dvadmin.system.views.menu import MenuViewSet
 from dvadmin.system.views.menu_button import MenuButtonViewSet
 from dvadmin.system.views.operation_log import OperationLogViewSet
@@ -33,7 +32,6 @@ system_url.register(r'user', UserViewSet)
 system_url.register(r'operation_log', OperationLogViewSet)
 system_url.register(r'dictionary', DictionaryViewSet)
 system_url.register(r'area', AreaViewSet)
-system_url.register(r'img', ImgViewSet)
 system_url.register(r'file', FileViewSet)
 system_url.register(r'api_white_list', ApiWhiteListViewSet)
 system_url.register(r'system_config', SystemConfigViewSet)

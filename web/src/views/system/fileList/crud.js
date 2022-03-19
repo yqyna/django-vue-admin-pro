@@ -1,3 +1,5 @@
+import util from '@/libs/util'
+
 export const crudOptions = (vm) => {
   return {
     pageOptions: {
@@ -7,7 +9,7 @@ export const crudOptions = (vm) => {
       height: '100%'
     },
     rowHandle: {
-      width: 140,
+      width: 110,
       view: {
         thin: true,
         text: '',
@@ -81,24 +83,26 @@ export const crudOptions = (vm) => {
       },
       {
         title: '文件地址',
-        key: 'img',
+        key: 'url',
+        type: 'file-uploader',
         search: {
           disabled: true
         },
-        width: 160,
-        type: 'input'
-
+        width: 220,
+        valueBuilder (row, key) {
+          console.log(row, key)
+          row.url = `${util.baseURL()}media/${row.url}`
+        }
       },
       {
-        title: '文件',
-        key: 'url',
-        type: 'ifile-uploader',
-        width: 150,
+        title: '文件MD5',
+        key: 'md5sum',
+        width: 200,
         search: {
           disabled: true
         },
         form: {
-          disabled: true
+          disabled: false
         },
         valueResolve (row, col) {
           const value = row[col.key]
