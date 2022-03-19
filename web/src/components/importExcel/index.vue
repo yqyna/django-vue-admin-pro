@@ -79,7 +79,8 @@ export default {
     importTemplate () {
       downloadFile({
         url: process.env.VUE_APP_API + this.importApi,
-        params: {}
+        params: {},
+        method: 'get'
       })
     },
     // 文件上传中处理
@@ -89,7 +90,7 @@ export default {
     // 文件上传成功处理
     handleFileSuccess (response, file, fileList) {
       const that = this
-      that.upload.open = false
+      // that.upload.open = false
       that.upload.isUploading = false
       that.$refs.upload.clearFiles()
       // 是否更新已经存在的用户数据

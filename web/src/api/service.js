@@ -58,7 +58,10 @@ function createService () {
   service.interceptors.response.use(
     response => {
       // dataAxios 是 axios 返回数据中的 data
-      const dataAxios = response.data
+      let dataAxios = response.data
+      if (response.headers['content-disposition']) {
+        dataAxios = response
+      }
       // 这个状态码是和后端约定的
       const { code } = dataAxios
       // 根据 code 进行判断
@@ -254,25 +257,25 @@ function saveAs (blob, filename) {
  * @param params
  * @param filename
  */
-export const downloadFile = function ({ url, params }) {
+export const downloadFile = function ({ url, data, method, filename }) {
   request({
     url: url,
-    method: 'get',
-    params: params
+    method: method,
+    data: data,
+    responseType: 'blob'
+    // headers: {Accept: 'application/vnd.openxmlformats-officedocument'}
   }).then(res => {
-    const { code, data, msg } = res
-    if (code === 2000) {
-      const url = data.url
-      const fileName = data.name || '导出'
-      getBlob(process.env.VUE_APP_API + url, function (blob) {
-        saveAs(blob, fileName)
-      })
-    } else {
-      Message({
-        message: msg,
-        type: 'error',
-        duration: 5 * 1000
-      })
+    const fileName = window.decodeURI(res.headers['content-disposition'].split('=')[1]) || filename + '.xls' || '文件导出.xls'
+    if (res) {
+      const blob = new Blob([res.data], { type: 'charset=utf-8' })
+      const elink = document.createElement('a')
+      elink.download = fileName
+      elink.style.display = 'none'
+      elink.href = URL.createObjectURL(blob)
+      document.body.appendChild(elink)
+      elink.click()
+      URL.revokeObjectURL(elink.href) // 释放URL 对象0
+      document.body.removeChild(elink)
     }
   })
 }

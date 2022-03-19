@@ -49,6 +49,7 @@ export function DelObj (id) {
 export function exportData (params) {
   return downloadFile({
     url: urlPrefix + 'export/',
-    params: params
+    params: params,
+    method: 'post'
   })
 }

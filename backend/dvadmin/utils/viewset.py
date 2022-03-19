@@ -19,7 +19,7 @@ from dvadmin.utils.json_response import SuccessResponse, ErrorResponse, DetailRe
 from dvadmin.utils.permission import CustomPermission
 from django_restql.mixins import QueryArgumentsMixin
 
-class CustomModelViewSet(ModelViewSet,ImportSerializerMixin,ExportSerializerMixin):
+class CustomModelViewSet(ModelViewSet,ImportSerializerMixin,ExportSerializerMixin,QueryArgumentsMixin):
     """
     自定义的ModelViewSet:
     统一标准的返回格式;新增,查询,修改可使用不同序列化器

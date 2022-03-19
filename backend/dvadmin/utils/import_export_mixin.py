@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
+from urllib.parse import quote
 
-"""
-@author: 猿小天
-@contact: QQ:1638245306
-@Created on: 2022/2/25 025 22:57
-@Remark:
-"""
 from django.db import transaction
+from django.http import HttpResponse
+from openpyxl import Workbook
+from openpyxl.utils import get_column_letter
+from openpyxl.worksheet.table import Table, TableStyleInfo
 from rest_framework.request import Request
 
-from dvadmin.utils.import_export import export_excel_save_model, import_to_data
+from dvadmin.utils.import_export import import_to_data
 from dvadmin.utils.json_response import DetailResponse
 from dvadmin.utils.request_util import get_verbose_name
 
@@ -40,9 +39,23 @@ class ImportSerializerMixin:
         if request.method == 'GET':
             # 示例数据
             queryset = self.filter_queryset(self.get_queryset())
-            return DetailResponse(
-                export_excel_save_model(request, self.import_field_dict.values(), [],
-                                        f'导入{get_verbose_name(queryset)}模板.xls'))
+            # 导出excel 表
+            response = HttpResponse(content_type='application/msexcel')
+            response['Access-Control-Expose-Headers'] = f'Content-Disposition'
+            response['Content-Disposition'] = f'attachment;filename={quote(str(f"导入{get_verbose_name(queryset)}模板.xlsx"))}'
+            wb = Workbook()
+            ws = wb.active
+            row = get_column_letter(len(self.import_field_dict) + 1)
+            column = 10
+            ws.append(['序号', *self.import_field_dict.values()])
+            tab = Table(displayName="Table1", ref=f"A1:{row}{column}")  # 名称管理器
+            style = TableStyleInfo(name='TableStyleLight11', showFirstColumn=True,
+                                   showLastColumn=True, showRowStripes=True, showColumnStripes=True)
+            tab.tableStyleInfo = style
+            ws.add_table(tab)
+            wb.save(response)
+            return response
+
         updateSupport = request.data.get('updateSupport')
         # 从excel中组织对应的数据结构，然后使用序列化器保存
         data = import_to_data(request.data.get('url'), self.import_field_dict)
@@ -63,7 +76,6 @@ class ImportSerializerMixin:
             serializer.is_valid(raise_exception=True)
             serializer.save()
         return DetailResponse(msg=f"导入成功！")
-
 
 
 class ExportSerializerMixin:
@@ -89,5 +101,22 @@ class ExportSerializerMixin:
         )
         queryset = self.filter_queryset(self.get_queryset())
         data = self.export_serializer_class(queryset, many=True).data
-        return DetailResponse(export_excel_save_model(request, self.export_field_label, data,
-                                                       f'导出{get_verbose_name(queryset)}.xls'))
+        # 导出excel 表
+        response = HttpResponse(content_type='application/msexcel')
+        response['Access-Control-Expose-Headers'] = f'Content-Disposition'
+        response['Content-Disposition'] = f'attachment;filename={quote(str(f"导出{get_verbose_name(queryset)}.xlsx"))}'
+        wb = Workbook()
+        ws = wb.active
+        row = get_column_letter(len(self.export_field_label) + 1)
+        column = 1
+        ws.append(['序号', *self.export_field_label])
+        for index, results in enumerate(data):
+            ws.append([index + 1, *list(results.values())])
+            column += 1
+        tab = Table(displayName="Table2", ref=f"A1:{row}{column}")  # 名称管理器
+        style = TableStyleInfo(name='TableStyleLight11', showFirstColumn=True,
+                               showLastColumn=True, showRowStripes=True, showColumnStripes=True)
+        tab.tableStyleInfo = style
+        ws.add_table(tab)
+        wb.save(response)
+        return response

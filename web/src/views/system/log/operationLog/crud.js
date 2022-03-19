@@ -31,6 +31,7 @@ export const crudOptions = (vm) => {
       remove: {
         thin: true,
         text: '删除',
+        show: false,
         disabled () {
           return !vm.hasPermissions('Delete')
         }
