@@ -253,6 +253,12 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # 只有经过身份认证确定用户身份才能访问
+        # 'rest_framework.permissions.IsAdminUser', # is_staff=True才能访问 —— 管理员(员工)权限
+        # 'rest_framework.permissions.AllowAny', # 允许所有
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly', # 有身份 或者 只读访问(self.list,self.retrieve)
+    ],
     'EXCEPTION_HANDLER': 'dvadmin.utils.exception.CustomExceptionHandler',  # 自定义的异常处理
 }
 # ================================================= #
@@ -346,8 +352,8 @@ CELERY_TIMEZONE = 'Asia/Shanghai'  # celery 时区问题
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # 初始化需要执行的列表，用来初始化后执行
 INITIALIZE_RESET_LIST = []
-ALL_MODELS_OBJECTS = [] # 所有app models 对象
+ALL_MODELS_OBJECTS = []  # 所有app models 对象
 # dvadmin 插件
 REGISTER_PLUGINS = (
-# ""
+    # ""
 )

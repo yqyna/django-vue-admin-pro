@@ -22,13 +22,16 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
+from application import settings
 from dvadmin.system.models import Users
 from dvadmin.utils.json_response import SuccessResponse, ErrorResponse, DetailResponse
 from dvadmin.utils.serializers import CustomModelSerializer
 from dvadmin.utils.validator import CustomValidationError
 
+
 class CaptchaView(APIView):
     authentication_classes = []
+    permission_classes = []
 
     @swagger_auto_schema(
         responses={
@@ -61,7 +64,7 @@ class LoginSerializer(TokenObtainPairSerializer):
         read_only_fields = ["id"]
 
     default_error_messages = {
-        'no_active_account': _('该账号已被禁用,请联系管理员')
+        'no_active_account': _('账号/密码不正确')
     }
 
     def validate_captcha(self, captcha):
@@ -79,29 +82,14 @@ class LoginSerializer(TokenObtainPairSerializer):
                 raise CustomValidationError("图片验证码错误")
 
     def validate(self, attrs):
-        username = attrs['username']
-        password = attrs['password']
-        user = Users.objects.filter(username=username,is_active=True).first()
-        # token = AccessToken.for_user(user)
-        # print(111,token)
-        if user and user.check_password(password):  # check_password() 对明文进行加密,并验证
-            data = super().validate(attrs)
-            data['name'] = self.user.name
-            data['userId'] = self.user.id
-            # data['refresh'] = str(refresh)
-            # data['access'] = str(refresh.access_token)
-            result = {
-                "code": 2000,
-                "msg": "请求成功",
-                "data": data
-            }
-        else:
-            result = {
-                "code": 4000,
-                "msg": "账号/密码不正确",
-                "data": None
-            }
-        return result
+        data = super().validate(attrs)
+        data['name'] = self.user.name
+        data['userId'] = self.user.id
+        return {
+            "code": 2000,
+            "msg": "请求成功",
+            "data": data
+        }
 
 
 class LoginView(TokenObtainPairView):
@@ -112,10 +100,47 @@ class LoginView(TokenObtainPairView):
     permission_classes = []
 
 
+class LoginTokenSerializer(TokenObtainPairSerializer):
+    """
+    登录的序列化器:
+    """
+
+    class Meta:
+        model = Users
+        fields = "__all__"
+        read_only_fields = ["id"]
+
+    default_error_messages = {
+        'no_active_account': _('账号/密码不正确')
+    }
+
+    def validate(self, attrs):
+        if not getattr(settings, 'LOGIN_NO_CAPTCHA_AUTH', False):
+            return {
+                "code": 4000,
+                "msg": "该接口暂未开通!",
+                "data": None
+            }
+        data = super().validate(attrs)
+        data['name'] = self.user.name
+        data['userId'] = self.user.id
+        return {
+            "code": 2000,
+            "msg": "请求成功",
+            "data": data
+        }
+
+
+class LoginTokenView(TokenObtainPairView):
+    """
+    登录获取token接口
+    """
+    serializer_class = LoginTokenSerializer
+    permission_classes = []
 
 
 class LogoutView(APIView):
-    def post(self,request):
+    def post(self, request):
         return DetailResponse(msg="注销成功")
 
 
@@ -126,8 +151,7 @@ class ApiLoginSerializer(CustomModelSerializer):
 
     class Meta:
         model = Users
-        fields = ['username','password']
-
+        fields = ['username', 'password']
 
 
 class ApiLogin(APIView):
@@ -139,9 +163,10 @@ class ApiLogin(APIView):
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
-        user_obj = auth.authenticate(request, username=username, password=hashlib.md5(password.encode(encoding='UTF-8')).hexdigest())
+        user_obj = auth.authenticate(request, username=username,
+                                     password=hashlib.md5(password.encode(encoding='UTF-8')).hexdigest())
         if user_obj:
-            login(request,user_obj)
+            login(request, user_obj)
             return redirect('/')
         else:
             return ErrorResponse(msg="账号/密码错误")

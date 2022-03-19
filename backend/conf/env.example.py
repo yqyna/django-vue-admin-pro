@@ -24,3 +24,4 @@ DATABASE_NAME = "dvadmin_pro"
 # ================================================= #
 DEBUG = True  # 线上环境请设置为True
 ALLOWED_HOSTS = ["*"]
+LOGIN_NO_CAPTCHA_AUTH = True  # 登录接口 /api/token/ 是否需要验证码认证，用于测试，正式环境建议取消

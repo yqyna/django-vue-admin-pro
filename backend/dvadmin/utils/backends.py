@@ -1,3 +1,4 @@
+import hashlib
 import logging
 
 from django.contrib.auth import get_user_model
@@ -23,7 +24,10 @@ class CustomBackend(ModelBackend):
         except UserModel.DoesNotExist:
             UserModel().set_password(password)
         else:
-            if user.check_password(password) and self.user_can_authenticate(user):
+            check_password = user.check_password(password)
+            if not check_password:
+                check_password = user.check_password(hashlib.md5(password.encode(encoding='UTF-8')).hexdigest())
+            if check_password and self.user_can_authenticate(user):
                 user.last_login = timezone.now()
                 user.save()
                 return user
