@@ -229,7 +229,7 @@ export const crudOptions = (vm) => {
         data: BUTTON_STATUS_BOOL
       },
       form: {
-        value: 1,
+        value: true,
         component: {
           span: 12,
           placeholder: '请选择状态'

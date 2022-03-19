@@ -13,6 +13,7 @@ export const crudOptions = (vm) => {
     },
     rowHandle: {
       width: 140,
+      fixed: 'right',
       view: {
         thin: true,
         text: '',
@@ -44,7 +45,7 @@ export const crudOptions = (vm) => {
     indexRow: { // 或者直接传true,不显示title，不居中
       title: '序号',
       align: 'center',
-      width: 100
+      width: 80
     },
     columns: [
       {
@@ -175,6 +176,7 @@ export const crudOptions = (vm) => {
       }, {
         title: '手机号码',
         key: 'mobile',
+        width: 120,
         search: {
           disabled: true
         },
@@ -194,6 +196,7 @@ export const crudOptions = (vm) => {
       }, {
         title: '邮箱',
         key: 'email',
+        width: 120,
         form: {
           rules: [
             { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
@@ -225,6 +228,24 @@ export const crudOptions = (vm) => {
         component: { props: { color: 'auto' } } // 自动染色
       },
       {
+        title: '用户类型',
+        key: 'user_type',
+        type: 'select',
+        width: 120,
+        search: {
+          key: 'user_type',
+          value: 0,
+          disabled: false
+        },
+        dict: {
+          data: [{ label: '前台用户', value: 1 }, { label: '后台用户', value: 0 }]
+        },
+        form: {
+          disabled: true
+        },
+        component: { props: { color: 'auto' } } // 自动染色
+      },
+      {
         title: '状态',
         key: 'is_active',
         search: {
@@ -246,7 +267,7 @@ export const crudOptions = (vm) => {
         title: '头像',
         key: 'avatar',
         type: 'avatar-uploader',
-        width: 100,
+        width: 80,
         align: 'left',
         form: {
           component: {
@@ -300,6 +321,7 @@ export const crudOptions = (vm) => {
       {
         title: '角色',
         key: 'role',
+        width: 160,
         search: {
           disabled: true
         },
