@@ -243,6 +243,6 @@ export const crudOptions = (vm) => {
           }
         }
       }
-    ].concat(vm.commonEndColumns({ show_create_datetime: false }))
+    ].concat(vm.commonEndColumns())
   }
 }

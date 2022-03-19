@@ -52,6 +52,7 @@ export const crudOptions = (vm) => {
         }
       },
       width: 230,
+      fixed: 'right',
       custom: [{
         show (index, row) {
           if (row.web_path && !row.is_link) {
@@ -305,6 +306,7 @@ export const crudOptions = (vm) => {
         type: 'select',
         show: false,
         dict: {
+          cache: false,
           data: vm.searchFiles()
         },
         form: {
@@ -333,6 +335,7 @@ export const crudOptions = (vm) => {
       {
         title: '组件名称',
         key: 'component_name',
+        width: 170,
         form: {
           rules: [
             { required: true, message: '请输入组件名称' }
@@ -359,6 +362,7 @@ export const crudOptions = (vm) => {
         title: '拥有权限',
         key: 'menuPermission',
         type: 'select',
+        width: 300,
         form: {
           disabled: true,
           component: {
@@ -453,6 +457,6 @@ export const crudOptions = (vm) => {
           }
         }
       }
-    ].concat(vm.commonEndColumns({ show_create_datetime: false, show_datetime: false }))
+    ].concat(vm.commonEndColumns({ update_datetime: { showTable: false } }))
   }
 }

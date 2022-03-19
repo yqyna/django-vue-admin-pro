@@ -220,7 +220,7 @@ export default {
       ],
       navigators: [
         {
-          name: '首页',
+          name: '控制台',
           icon: 'home',
           route: {
             name: 'index'

@@ -11,7 +11,7 @@ const frameIn = [{
   redirect: { name: 'index' },
   component: layoutHeaderAside,
   children: [
-    // 首页
+    // 控制台
     {
       path: 'index',
       name: 'index',

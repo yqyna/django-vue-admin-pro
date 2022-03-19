@@ -88,7 +88,7 @@ export const crudOptions = (vm) => {
       }
     },
     {
-      title: '父级部门',
+      title: '上级部门',
       key: 'parent',
       show: false,
       search: {

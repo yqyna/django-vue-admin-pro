@@ -123,57 +123,53 @@ export const crudOptions = (vm) => {
       },
       {
         title: '部门',
-        key: 'dept',
         width: 160,
-        type: 'cascader',
+        key: 'dept',
         search: {
-          disabled: false
+          disabled: true
+        },
+        type: 'table-selector',
+        dict: {
+          cache: false,
+          url: deptPrefix,
+          value: 'id', // 数据字典中value字段的属性名
+          label: 'name', // 数据字典中label字段的属性名
+          getData: (url, dict, { _, component }) => {
+            return request({ url: url, params: { page: 1, limit: 10, status: 1 } }).then(ret => {
+              component._elProps.page = ret.data.page
+              component._elProps.limit = ret.data.limit
+              component._elProps.total = ret.data.total
+              return ret.data.data
+            })
+          }
         },
         form: {
           rules: [ // 表单校验规则
-            { required: true, message: '部门必填项' }
+            { required: true, message: '必填项' }
           ],
-          component: {
-            props: {
-              props: { color: 'auto' },
-              elProps: {
-                clearable: true,
-                showAllLevels: false, // 仅显示最后一级
-                props: {
-                  checkStrictly: true, // 可以不需要选到最后一级
-                  emitPath: false
-                }
-              },
-              dict: {
-                cache: false, // 表单的dict可以禁用缓存
-                url: deptPrefix + '?limit=999&status=1',
-                body: {
-                  status: 1
-                },
-                isTree: true,
-                value: 'id', // 数据字典中value字段的属性名
-                label: 'name' // 数据字典中label字段的属性名
-              },
-              multiple: false,
-              clearable: true
-            }
-          },
           itemProps: {
             class: { yxtInput: true }
-          }
-        },
-        component: {
-          props: {
-            props: { color: 'auto' },
-            dict: {
-              // cache: true, // 表单的dict可以禁用缓存
-              url: deptPrefix + '?limit=999&status=1',
-              isTree: true,
-              value: 'id', // 数据字典中value字段的属性名
-              label: 'name' // 数据字典中label字段的属性名
-            },
-            multiple: false,
-            clearable: true
+          },
+          component: {
+            span: 12,
+            props: { multiple: false },
+            elProps: {
+              pagination: true,
+              columns: [
+                {
+                  field: 'name',
+                  title: '部门名称'
+                },
+                {
+                  field: 'status_label',
+                  title: '状态'
+                },
+                {
+                  field: 'parent_name',
+                  title: '父级部门'
+                }
+              ]
+            }
           }
         }
       }, {
@@ -306,45 +302,52 @@ export const crudOptions = (vm) => {
         key: 'role',
         search: {
           disabled: true
-        }, // 查询的时候触发一个空方法
-        type: 'checkbox',
-
+        },
+        type: 'table-selector',
+        dict: {
+          cache: false,
+          url: '/api/system/role/',
+          value: 'id', // 数据字典中value字段的属性名
+          label: 'name', // 数据字典中label字段的属性名
+          getData: (url, dict, { form, component }) => {
+            return request({ url: url, params: { page: 1, limit: 10 } }).then(ret => {
+              component._elProps.page = ret.data.page
+              component._elProps.limit = ret.data.limit
+              component._elProps.total = ret.data.total
+              return ret.data.data
+            })
+          }
+        },
         form: {
           rules: [ // 表单校验规则
             { required: true, message: '必填项' }
           ],
-          component: {
-            props: {
-              dict: {
-                cache: false, // 表单的dict可以禁用缓存
-                url: '/api/system/role/',
-                body: {
-                  status: 1
-                },
-                value: 'id', // 数据字典中value字段的属性名
-                label: 'name' // 数据字典中label字段的属性名
-
-              }
-            }
-          },
           itemProps: {
             class: { yxtInput: true }
-          }
-        },
-        component: {
-          props: { color: 'auto' },
-          dict: {
-            url: '/api/system/role/',
-            value: 'id', // 数据字典中value字段的属性名
-            label: 'name', // 数据字典中label字段的属性名
-            getData: (url, dict) => { // 配置此参数会覆盖全局的getRemoteDictFunc
-              return request({ url: url }).then(ret => {
-                return ret.data.data
-              })
+          },
+          component: {
+            span: 12,
+            props: { multiple: true },
+            elProps: {
+              pagination: true,
+              columns: [
+                {
+                  field: 'name',
+                  title: '角色名称'
+                },
+                {
+                  field: 'key',
+                  title: '权限标识'
+                },
+                {
+                  field: 'status_label',
+                  title: '状态'
+                }
+              ]
             }
           }
-        } // 自动染色
+        }
       }
-    ].concat(vm.commonEndColumns({ show_create_datetime: false }))
+    ].concat(vm.commonEndColumns({ update_datetime: { showTable: false } }))
   }
 }

@@ -170,19 +170,65 @@ const selectType = d2CrudPlus.util.columnResolve.getType('select')
 selectType.component.props.color = 'auto' // 修改官方的字段类型，设置为支持自动染色
 
 Vue.component('v-chart', ECharts)
-// 默认Columns 结尾
-Vue.prototype.commonEndColumns = function (kwargs) {
-  var value = kwargs || {}
+// 默认Columns 结尾 showForm：显示在form中，showTable：显示在table中
+Vue.prototype.commonEndColumns = function (param = {}) {
+  /**
+   * @param {Object} {
+    description: {
+      showForm: true,
+      showTable: false
+    },
+    dept_belong_id: {
+      showForm: false,
+      showTable: false
+    },
+    modifier_name: {
+      showForm: false,
+      showTable: false
+    },
+    update_datetime: {
+      showForm: false,
+      showTable: true
+    },
+    create_datetime: {
+      showForm: false,
+      showTable: true
+    }
+  }
+   */
+  const showData = {
+    description: {
+      showForm: (param.description && param.description.showForm) !== undefined ? param.description.showForm : true,
+      showTable: (param.description && param.description.showTable) !== undefined ? param.description.showTable : false
+    },
+    dept_belong_id: {
+      showForm: (param.dept_belong_id && param.dept_belong_id.showForm) !== undefined ? param.dept_belong_id.showForm : false,
+      showTable: (param.dept_belong_id && param.dept_belong_id.showTable) !== undefined ? param.dept_belong_id.showTable : false
+    },
+    modifier_name: {
+      showForm: (param.modifier_name && param.modifier_name.showForm) !== undefined ? param.modifier_name.showForm : false,
+      showTable: (param.modifier_name && param.modifier_name.showTable) !== undefined ? param.modifier_name.showTable : false
+    },
+    update_datetime: {
+      showForm: (param.update_datetime && param.update_datetime.showForm) !== undefined ? param.update_datetime.showForm : false,
+      showTable: (param.update_datetime && param.update_datetime.showTable) !== undefined ? param.update_datetime.showTable : true
+    },
+    create_datetime: {
+      showForm: (param.create_datetime && param.create_datetime.showForm) !== undefined ? param.create_datetime.showForm : false,
+      showTable: (param.create_datetime && param.create_datetime.showTable) !== undefined ? param.create_datetime.showTable : true
+    }
+  }
   return [
     {
       title: '备注',
       key: 'description',
-      show: value.show_description || false,
+      show: showData.description.showTable,
       search: {
         disabled: true
       },
       type: 'textarea',
       form: {
+        disabled: !showData.description.showForm,
         component: {
           placeholder: '请输入内容',
           showWordLimit: true,
@@ -192,18 +238,20 @@ Vue.prototype.commonEndColumns = function (kwargs) {
           }
         }
       }
-    }, {
+    },
+    {
       title: '创建人',
-      show: value.show_modifier_name === false,
+      show: showData.modifier_name.showTable,
       width: 100,
       key: 'modifier_name',
       form: {
-        disabled: true
+        disabled: !showData.modifier_name.showForm
       }
-    }, {
+    },
+    {
       title: '数据归属部门',
       key: 'dept_belong_id',
-      show: value.show_dept_belong_id === false,
+      show: showData.dept_belong_id.showTable,
       search: {
         disabled: true
       },
@@ -222,6 +270,7 @@ Vue.prototype.commonEndColumns = function (kwargs) {
         }
       },
       form: {
+        disabled: !showData.dept_belong_id.showForm,
         component: {
           props: {
             elProps: {
@@ -262,22 +311,22 @@ Vue.prototype.commonEndColumns = function (kwargs) {
       title: '更新时间',
       key: 'update_datetime',
       width: 160,
-      show: value.show_datetime !== false,
+      show: showData.update_datetime.showTable,
       type: 'datetime',
       sortable: true,
       form: {
-        disabled: true
+        disabled: !showData.update_datetime.showForm
       }
     },
     {
       title: '创建时间',
       key: 'create_datetime',
       width: 160,
-      show: value.show_create_datetime !== false,
+      show: showData.create_datetime.showTable,
       type: 'datetime',
       sortable: true,
       form: {
-        disabled: true
+        disabled: !showData.create_datetime.showForm
       }
     }
   ]

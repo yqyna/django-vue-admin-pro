@@ -30,7 +30,7 @@ function supplementPath (menu) {
 export const menuHeader = supplementPath([])
 
 // export const menuHeader = supplementPath([
-//     { path: '/index', title: '首页', icon: 'home' },
+//     { path: '/index', title: '控制台', icon: 'home' },
 //     {
 //         title: '页面',
 //         icon: 'folder-o',
@@ -44,7 +44,7 @@ export const menuHeader = supplementPath([])
 
 export const menuAside = supplementPath([])
 // export const menuAside = supplementPath([
-//     { path: '/index', title: '首页', icon: 'home' },
+//     { path: '/index', title: '控制台', icon: 'home' },
 //     {
 //         title: '系统管理',
 //         icon: 'folder-o',
@@ -136,7 +136,7 @@ export const handleAsideMenu = function (menuData) {
     strict: true
   })
   const menu = [
-    { path: '/index', title: '首页', icon: 'home' },
+    { path: '/index', title: '控制台', icon: 'home' },
     ...data
   ]
   return supplementPath(menu)
