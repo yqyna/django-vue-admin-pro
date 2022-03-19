@@ -126,9 +126,9 @@ export default {
     // 数据验证
     onSubmit () {
       let res = false
-      this.$refs['association'].validate((valid) => {
+      this.$refs.association.validate((valid) => {
         if (valid) {
-          res=true
+          res = true
         } else {
           return false
         }

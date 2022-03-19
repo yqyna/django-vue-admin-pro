@@ -4,18 +4,18 @@ import { urlPrefix as menuPrefix } from './api'
 import { urlPrefix as buttonPrefix } from '../button/api'
 import XEUtils from 'xe-utils'
 export const crudOptions = (vm) => {
-  //验证路由地址
+  // 验证路由地址
   const validateWebPath = (rule, value, callback) => {
-    const is_link = vm.getEditForm().is_link
-    let pattern = /^\/.*?/;
-    if (is_link) {
-        pattern = /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/g;
+    const isLink = vm.getEditForm().is_link
+    let pattern = /^\/.*?/
+    if (isLink) {
+      pattern = /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/g
     } else {
-        pattern = /^\/.*?/;
+      pattern = /^\/.*?/
     }
-    if(!pattern.test(value)){
+    if (!pattern.test(value)) {
       callback(new Error('请正确的地址'))
-    }else {
+    } else {
       callback()
     }
   }
@@ -27,7 +27,7 @@ export const crudOptions = (vm) => {
     options: {
       rowId: 'id',
       height: '100%', // 表格高度100%, 使用toolbar必须设置
-      highlightCurrentRow: false,
+      highlightCurrentRow: false
     },
     rowHandle: {
       view: {
@@ -247,28 +247,28 @@ export const crudOptions = (vm) => {
             },
             placeholder: '请选择是否外链接'
           },
-          valueChange(key ,value ,form, {getColumn, mode, component, immediate, getComponent }){
+          valueChange (key, value, form, { getColumn, mode, component, immediate, getComponent }) {
             form.web_path = null
-            if(value){
-              getColumn('web_path').title = "外链接地址"
-              getColumn('web_path').component.placeholder='请输入外链接地址'
-              getColumn('web_path').helper= {
+            if (value) {
+              getColumn('web_path').title = '外链接地址'
+              getColumn('web_path').component.placeholder = '请输入外链接地址'
+              getColumn('web_path').helper = {
                 render (h) {
                   return (< el-alert title="外链接地址,请以https|http|ftp|rtsp|mms开头" type="warning" />
                   )
                 }
               }
-            }else{
-              getColumn('web_path').title = "路由地址"
-              getColumn('web_path').component.placeholder='请输入路由地址'
-              getColumn('web_path').helper= {
+            } else {
+              getColumn('web_path').title = '路由地址'
+              getColumn('web_path').component.placeholder = '请输入路由地址'
+              getColumn('web_path').helper = {
                 render (h) {
                   return (< el-alert title="浏览器中url的地址,请以/开头" type="warning" />
                   )
                 }
               }
             }
-          },
+          }
         }
       },
       {

@@ -51,42 +51,41 @@
 
 <script>
 import * as api from './api'
-import {crudOptions} from './crud'
-import {d2CrudPlus} from 'd2-crud-plus'
+import { crudOptions } from './crud'
+import { d2CrudPlus } from 'd2-crud-plus'
 
 export default {
   name: 'user',
 
   mixins: [d2CrudPlus.crud],
-  data() {
+  data () {
     return {}
   },
   methods: {
-    getCrudOptions() {
+    getCrudOptions () {
       return crudOptions(this)
     },
-    pageRequest(query) {
+    pageRequest (query) {
       return api.GetList(query)
     },
-    addRequest(row) {
+    addRequest (row) {
       return api.AddObj(row)
     },
-    updateRequest(row) {
+    updateRequest (row) {
       console.log('----', row)
       return api.UpdateObj(row)
     },
-    delRequest(row) {
+    delRequest (row) {
       return api.DelObj(row.id)
     },
-    onExport() {
-      this.$confirm("是否确认导出所有数据项?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+    onExport () {
+      this.$confirm('是否确认导出所有数据项?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(function () {
         return api.exportData()
       })
-
     }
   }
 }

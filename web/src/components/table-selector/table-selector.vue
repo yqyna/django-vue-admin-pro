@@ -462,11 +462,11 @@ export default {
           this.selected.length === 0
             ? sizeInMap + 'px'
             : Math.max(
-            tags
-              ? tags.clientHeight + (tags.clientHeight > sizeInMap ? 6 : 0)
-              : 0,
-            sizeInMap
-          ) + 'px'
+              tags
+                ? tags.clientHeight + (tags.clientHeight > sizeInMap ? 6 : 0)
+                : 0,
+              sizeInMap
+            ) + 'px'
         input.style.height = height
         if (this.visible && this.emptyText !== false) {
           this.broadcast('ElSelectDropdown', 'updatePopper')
@@ -566,7 +566,7 @@ export default {
     /**
      * 表格多选事件
      */
-    checkboxChange({ checked, row, rowIndex, $rowIndex, column, columnIndex, $columnIndex, $event }){
+    checkboxChange ({ checked, row, rowIndex, $rowIndex, column, columnIndex, $columnIndex, $event }) {
       this.$emit('checkboxChange', {
         checked, row, rowIndex, $rowIndex, column, columnIndex, $columnIndex, $event
       })

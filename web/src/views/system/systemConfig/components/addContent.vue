@@ -96,20 +96,20 @@ export default {
       parentOptions: [],
       // 表单类型
       typeOptions: [
-        {value:0, label:'短文本'},
-        {value:1, label:'长文本'},
-        {value:2, label:'数字框'},
-        {value:3, label:'选择框'},
-        {value:4, label:'单选框'},
-        {value:5, label:'复选框'},
-        {value:6, label:'日期'},
-        {value:7, label:'日期时间'},
-        {value:8, label:'时间'},
-        {value:9, label:'图片'},
-        {value:10, label:'文件'},
-        {value:11, label:'数组'},
-        {value:12, label:'关联表'},
-        {value:13, label:'关联表(多选)'},
+        { value: 0, label: '短文本' },
+        { value: 1, label: '长文本' },
+        { value: 2, label: '数字框' },
+        { value: 3, label: '选择框' },
+        { value: 4, label: '单选框' },
+        { value: 5, label: '复选框' },
+        { value: 6, label: '日期' },
+        { value: 7, label: '日期时间' },
+        { value: 8, label: '时间' },
+        { value: 9, label: '图片' },
+        { value: 10, label: '文件' },
+        { value: 11, label: '数组' },
+        { value: 12, label: '关联表' },
+        { value: 13, label: '关联表(多选)' }
       ],
       ruleOptions: [
         {
@@ -136,7 +136,7 @@ export default {
     // 提交
     onSubmit () {
       const that = this
-      that.associationTableUpdate().then(()=>{
+      that.associationTableUpdate().then(() => {
         const form = JSON.parse(JSON.stringify(that.form))
         const rules = []
         for (const item of form.rule) {
@@ -145,7 +145,6 @@ export default {
         }
         form.rule = rules
         that.$refs.form.validate((valid) => {
-
           if (valid) {
             api.createObj(form).then(res => {
               this.$message.success('新增成功')
@@ -157,22 +156,21 @@ export default {
           }
         })
       })
-
     },
     // 关联表数据更新
     associationTableUpdate () {
       const that = this
       return new Promise(function (resolve, reject) {
-        if(that.$refs['associationTable']){
-          console.log(that.$refs['associationTable'].onSubmit())
-          if(!that.$refs['associationTable'].onSubmit()){
-            console.log(1111)
+        if (that.$refs.associationTable) {
+          console.log(that.$refs.associationTable.onSubmit())
+          if (!that.$refs.associationTable.onSubmit()) {
+            // eslint-disable-next-line prefer-promise-reject-errors
             return reject(false)
           }
-          const { formObj } = that.$refs['associationTable']
+          const { formObj } = that.$refs.associationTable
           that.form.setting = formObj
           return resolve(true)
-        }else {
+        } else {
           return resolve(true)
         }
       })

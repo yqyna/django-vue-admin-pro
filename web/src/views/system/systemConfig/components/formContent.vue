@@ -272,14 +272,10 @@ export default {
       const $table = this.$refs[tableName][0]
       const { tableData } = $table.getTableData()
       const tableLength = tableData.length
-      if (tableLength === 0) {
-        const { row: newRow } = $table.insert()
-      } else {
+      if (tableLength !== 0) {
         const errMap = await $table.validate().catch(errMap => errMap)
         if (errMap) {
           this.$message.error('校验不通过！')
-        } else {
-          const { row: newRow } = $table.insert()
         }
       }
     },
@@ -340,7 +336,7 @@ export default {
       }
     },
     // 上传失败
-    handleError (err, file, fileList) {
+    handleError () {
       this.$message.error('上传失败')
     },
     // 上传超出限制

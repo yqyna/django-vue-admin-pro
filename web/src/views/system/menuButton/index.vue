@@ -50,35 +50,35 @@
 
 <script>
 import * as api from './api'
-import {crudOptions} from './crud'
-import {d2CrudPlus} from 'd2-crud-plus'
-import router from "@/router";
+import { crudOptions } from './crud'
+import { d2CrudPlus } from 'd2-crud-plus'
+import router from '@/router'
 export default {
   name: 'menuButton',
   mixins: [d2CrudPlus.crud],
-  data() {
+  data () {
     return {}
   },
   methods: {
-    getCrudOptions() {
+    getCrudOptions () {
       return crudOptions(this)
     },
-    pageRequest(query) {
+    pageRequest (query) {
       const menuId = this.$route.params.id
-      return api.GetList({...query, menu: menuId})
+      return api.GetList({ ...query, menu: menuId })
     },
-    addRequest(row) {
+    addRequest (row) {
       const menuId = this.$route.params.id
       return api.createObj(row, menuId)
     },
-    updateRequest(row) {
+    updateRequest (row) {
       return api.UpdateObj(row)
     },
-    delRequest(row) {
+    delRequest (row) {
       return api.DelObj(row.id)
     },
     // 跳转到添加按钮界面
-    onLinkBtn() {
+    onLinkBtn () {
       router.push({ path: '/button' })
     }
   }

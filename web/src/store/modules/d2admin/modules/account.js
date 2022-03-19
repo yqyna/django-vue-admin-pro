@@ -10,7 +10,7 @@ import { Message, MessageBox } from 'element-ui'
 import util from '@/libs/util.js'
 import router from '@/router'
 import store from '@/store/index'
-import { SYS_USER_LOGIN,SYS_USER_LOGOUT } from '@/views/system/login/api'
+import { SYS_USER_LOGIN, SYS_USER_LOGOUT } from '@/views/system/login/api'
 
 export default {
   namespaced: true,
@@ -58,13 +58,12 @@ export default {
              * @description 注销
              */
       async function logout () {
-
-       await SYS_USER_LOGOUT({"refresh":util.cookies.get('refresh')}).then(()=>{
-         // 删除cookie
-         util.cookies.remove('token')
-         util.cookies.remove('uuid')
-         util.cookies.remove('refresh')
-       })
+        await SYS_USER_LOGOUT({ refresh: util.cookies.get('refresh') }).then(() => {
+          // 删除cookie
+          util.cookies.remove('token')
+          util.cookies.remove('uuid')
+          util.cookies.remove('refresh')
+        })
         // 清空 vuex 用户信息
         await dispatch('d2admin/user/set', {}, { root: true })
         store.commit('d2admin/menu/asideSet', []) // 设置侧边栏菜单

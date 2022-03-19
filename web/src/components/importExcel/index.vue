@@ -37,66 +37,66 @@
 </template>
 
 <script>
-import util from "@/libs/util";
-import {request,downloadFile} from "@/api/service";
+import util from '@/libs/util'
+import { request, downloadFile } from '@/api/service'
 
 export default {
-  name: "importExcel",
-  inject:['refreshView'],
-  props:{
-    upload:{
-      type:Object,
-      default(){
+  name: 'importExcel',
+  inject: ['refreshView'],
+  props: {
+    upload: {
+      type: Object,
+      default () {
         return {
           // 是否显示弹出层
           open: false,
           // 弹出层标题
-          title: "",
+          title: '',
           // 是否禁用上传
           isUploading: false,
           // 是否更新已经存在的用户数据
           updateSupport: 0,
           // 设置上传的请求头部
-          headers: { Authorization: "JWT " + util.cookies.get('token') },
+          headers: { Authorization: 'JWT ' + util.cookies.get('token') },
           // 上传的地址
-          url: process.env.VUE_APP_API + "/api/system/file/"
+          url: process.env.VUE_APP_API + '/api/system/file/'
         }
       }
     },
-    importApi:{ //导入接口地址
-      type:String,
-      default() {
-        return undefined;
+    importApi: { // 导入接口地址
+      type: String,
+      default () {
+        return undefined
       }
     }
   },
-  methods:{
+  methods: {
     /** 导入按钮操作 */
-    handleImport() {
-      this.upload.open = true;
+    handleImport () {
+      this.upload.open = true
     },
     /** 下载模板操作 */
-    importTemplate() {
+    importTemplate () {
       downloadFile({
-        url:process.env.VUE_APP_API + this.importApi,
-        params:{},
-      });
+        url: process.env.VUE_APP_API + this.importApi,
+        params: {}
+      })
     },
     // 文件上传中处理
-    handleFileUploadProgress(event, file, fileList) {
-      this.upload.isUploading = true;
+    handleFileUploadProgress (event, file, fileList) {
+      this.upload.isUploading = true
     },
     // 文件上传成功处理
-    handleFileSuccess(response, file, fileList) {
+    handleFileSuccess (response, file, fileList) {
       const that = this
-      that.upload.open = false;
-      that.upload.isUploading = false;
-      that.$refs.upload.clearFiles();
+      that.upload.open = false
+      that.upload.isUploading = false
+      that.$refs.upload.clearFiles()
       // 是否更新已经存在的用户数据
       return request({
         url: that.importApi,
-        method: "post",
-        data:{
+        method: 'post',
+        data: {
           url: response.data.url,
           updateSupport: that.upload.updateSupport
         }
@@ -107,11 +107,11 @@ export default {
           callback: action => {
             that.refreshView()
           }
-        });
-      });
+        })
+      })
     },
     // 提交上传文件
-    submitFileForm() {
+    submitFileForm () {
       this.$refs.upload.submit()
     }
   }

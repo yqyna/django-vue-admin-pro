@@ -45,7 +45,7 @@ export function DelObj (id) {
 /*
 获取所有的model及字段信息
  */
-export function GetAssociationTable(){
+export function GetAssociationTable () {
   return request({
     url: urlPrefix + 'get_association_table/',
     method: 'get',
