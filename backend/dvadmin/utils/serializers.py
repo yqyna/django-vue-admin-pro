@@ -30,7 +30,7 @@ class CustomModelSerializer(DynamicFieldsMixin,ModelSerializer):
     def get_modifier_name(self, instance):
         if not hasattr(instance, 'modifier'):
             return None
-        queryset = Users.objects.filter(id=instance.modifier).values_list('name', flat=True).first()
+        queryset = Users.objects.filter(username=instance.modifier).values_list('name', flat=True).first()
         if queryset:
             return queryset
         return None
