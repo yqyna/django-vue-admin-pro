@@ -38,6 +38,24 @@
         />
       </div>
     </d2-crud-x>
+<!--  角色授权  -->
+    <div>
+      <el-drawer
+        title="角色授权"
+        :visible.sync="rolePermissionShow"
+        direction="rtl"
+        size="70%"
+        >
+        <template slot="title">
+          <div>
+            当前角色<el-tag>管理员</el-tag>
+          </div>
+        </template>
+        <div>
+          <rolePermission v-if="rolePermissionShow" :role-obj="roleObj"></rolePermission>
+        </div>
+      </el-drawer>
+    </div>
   </d2-container>
 </template>
 
@@ -45,11 +63,18 @@
 import * as api from './api'
 import { crudOptions } from './crud'
 import { d2CrudPlus } from 'd2-crud-plus'
+import rolePermission from '../rolePermission'
 export default {
   name: 'role',
   mixins: [d2CrudPlus.crud],
+  components:{
+    rolePermission
+  },
   data () {
-    return {}
+    return {
+      rolePermissionShow:false,
+      roleObj:undefined
+    }
   },
   methods: {
     getCrudOptions () {
@@ -69,10 +94,13 @@ export default {
     },
     // 授权
     createPermission (scope) {
-      this.$router.push({
-        name: 'rolePermission',
-        params: { id: scope.row.id }
-      })
+      console.log(scope)
+      this.roleObj = scope.row
+      this.rolePermissionShow = true
+      // this.$router.push({
+      //   name: 'rolePermission',
+      //   params: { id: scope.row.id }
+      // })
     }
   }
 }
