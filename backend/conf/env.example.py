@@ -1,8 +1,15 @@
+import os
+
+from application.settings import BASE_DIR
+
 # ================================================= #
-# ************** mysql数据库 配置  ************** #
+# ************** 数据库 配置  ************** #
 # ================================================= #
-# 数据库地址
-DATABASE_ENGINE = "django.db.backends.mysql"
+#
+# 数据库 ENGINE ，默认演示使用 sqlite3 数据库，正式环境建议使用 mysql 数据库
+DATABASE_ENGINE = "django.db.backends.sqlite3"
+# 数据库名
+DATABASE_NAME = os.path.join(BASE_DIR, 'db.sqlite3')
 # 数据库地址 改为自己数据库地址
 DATABASE_HOST = "127.0.0.1"
 # 数据库端口
@@ -11,8 +18,6 @@ DATABASE_PORT = 3306
 DATABASE_USER = "root"
 # 数据库密码
 DATABASE_PASSWORD = "123456"
-# 数据库名
-DATABASE_NAME = "dvadmin_pro"
 # ================================================= #
 # ************** redis配置，无redis 可不进行配置  ************** #
 # ================================================= #
