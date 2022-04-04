@@ -54,11 +54,10 @@ class DataLevelPermissionsFilter(BaseFilterBackend):
     4. 只为仅本人数据权限时只返回过滤本人数据，并且部门为自己本部门(考虑到用户会变部门，只能看当前用户所在的部门数据)
     5. 自定数据权限 获取部门，根据部门过滤
     """
-
     def filter_queryset(self, request, queryset, view):
         """
-                接口白名单是否认证数据权限
-                """
+        接口白名单是否认证数据权限
+        """
         api = request.path  # 当前请求接口
         method = request.method  # 当前请求方法
         methodList = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
