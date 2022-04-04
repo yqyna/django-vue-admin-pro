@@ -10,7 +10,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'application.settings')
 django.setup()
 
 from dvadmin.system.models import Dept, Button, Menu, MenuButton, Role, Users
-from dvadmin.system.util import init_area
 
 
 class Initialize(CoreInitialize):
@@ -1357,7 +1356,6 @@ class Initialize(CoreInitialize):
         self.init_menu_button()
         self.init_role()
         self.init_users()
-        init_area.main()  # 初始化地区数据
 
 
 # 项目init 初始化，默认会执行 main 方法进行初始化

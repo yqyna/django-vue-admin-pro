@@ -10,6 +10,8 @@ import os
 
 import django
 import pypinyin
+from django.core.management import BaseCommand
+from django.db import connection
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'application.settings')
 django.setup()
@@ -54,5 +56,27 @@ def main():
             Area.objects.update_or_create(code=code, defaults=ele)
 
 
-if __name__ == '__main__':
-    main()
+class Command(BaseCommand):
+    """
+    项目初始化命令: python manage.py init
+    """
+
+    def add_arguments(self, parser):
+        pass
+
+    def handle(self, *args, **options):
+
+        print(f"正在准备初始化省份数据...")
+
+        if hasattr(connection, 'tenant') and connection.tenant.schema_name:
+            from django_tenants.utils import get_tenant_model
+            from django_tenants.utils import tenant_context,schema_context
+            for tenant in get_tenant_model().objects.exclude(schema_name='public'):
+                with tenant_context(tenant):
+                    print(f"租户[{connection.tenant.schema_name}]初始化数据开始...")
+                    main()
+                    print(f"租户[{connection.tenant.schema_name}]初始化数据完成！")
+        else:
+            main()
+        print("省份数据初始化数据完成！")
+
