@@ -252,6 +252,7 @@ Vue.prototype.commonEndColumns = function (param = {}) {
       title: '数据归属部门',
       key: 'dept_belong_id',
       show: showData.dept_belong_id.showTable,
+      width: 150,
       search: {
         disabled: true
       },

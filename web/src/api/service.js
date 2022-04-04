@@ -22,12 +22,14 @@ export function getErrorMessage (msg) {
       util.cookies.remove('token')
       util.cookies.remove('uuid')
       router.push({ path: '/login' })
+      router.go(0)
       return '登录超时，请重新登录！'
     }
     if (msg.code === 'user_not_found') {
       util.cookies.remove('token')
       util.cookies.remove('uuid')
       router.push({ path: '/login' })
+      router.go(0)
       return '用户无效，请重新登录！'
     }
     return Object.values(msg)
@@ -82,6 +84,7 @@ function createService () {
             util.cookies.remove('uuid')
             util.cookies.remove('refresh')
             router.push({ path: '/login' })
+            router.go(0)
             errorCreate(`${getErrorMessage(dataAxios.msg)}`)
             break
           case 404:
@@ -111,7 +114,8 @@ function createService () {
           refreshTken().then(res => {
             util.cookies.set('token', res.access)
           }).catch(e => {
-            router.push({ name: '/login' })
+            router.push({ name: 'login' })
+            router.go(0)
             error.message = '未认证，请登录'
           })
           break
