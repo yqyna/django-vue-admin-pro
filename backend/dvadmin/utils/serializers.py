@@ -60,7 +60,7 @@ class CustomModelSerializer(DynamicFieldsMixin,ModelSerializer):
                 if self.creator_field_id in self.fields.fields:
                     validated_data[self.creator_field_id] = self.request.user
 
-                if self.dept_belong_id_field_name in self.fields.fields and not validated_data.get(
+                if self.dept_belong_id_field_name in self.fields.fields and validated_data.get(
                         self.dept_belong_id_field_name, None) is None:
                     validated_data[self.dept_belong_id_field_name] = getattr(self.request.user, 'dept_id', None)
         return super().create(validated_data)
