@@ -240,7 +240,7 @@ Vue.prototype.commonEndColumns = function (param = {}) {
       }
     },
     {
-      title: '创建人',
+      title: '修改人',
       show: showData.modifier_name.showTable,
       width: 100,
       key: 'modifier_name',
