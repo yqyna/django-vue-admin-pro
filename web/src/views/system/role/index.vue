@@ -67,13 +67,13 @@ import rolePermission from '../rolePermission'
 export default {
   name: 'role',
   mixins: [d2CrudPlus.crud],
-  components:{
+  components: {
     rolePermission
   },
   data () {
     return {
-      rolePermissionShow:false,
-      roleObj:undefined
+      rolePermissionShow: false,
+      roleObj: undefined
     }
   },
   methods: {

@@ -35,7 +35,6 @@
             </div>
           </div>
 
-
           <div>
             <el-select
               v-show="roleObj.name"
@@ -123,15 +122,13 @@
 import * as api from './api'
 import * as deptApi from '../dept/api'
 import XEUtils from 'xe-utils'
-import Vue from 'vue'
-import SplitPane from 'vue-splitpane'
 
 export default {
   name: 'rolePermission',
   props: {
     roleObj: {
       type: Object,
-      default() {
+      default () {
         return {
           name: null,
           data_range: null
@@ -139,7 +136,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       filterText: '',
       data: [],
@@ -175,20 +172,20 @@ export default {
     }
   },
   watch: {
-    filterText(val) {
+    filterText (val) {
       this.$refs.tree.filter(val)
     }
   },
   methods: {
-    filterNode(value, data) {
+    filterNode (value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
     },
-    getCrudOptions() {
+    getCrudOptions () {
       // eslint-disable-next-line no-undef
       return crudOptions(this)
     },
-    pageRequest(query) {
+    pageRequest (query) {
       return api.GetList(query).then(res => {
         res.map((value, index) => {
           value.node_id = index
@@ -199,29 +196,29 @@ export default {
         })
       })
     },
-    initNode() {
+    initNode () {
       this.getDeptData()
       this.getMenuData(this.roleObj)
       this.menuCheckedKeys = this.roleObj.menu // 加载已勾选的菜单
       this.deptCheckedKeys = this.roleObj.dept
     },
-    addRequest(row) {
+    addRequest (row) {
       return api.createObj(row)
     },
-    updateRequest(row) {
+    updateRequest (row) {
       return api.UpdateObj(row)
     },
-    delRequest(row) {
+    delRequest (row) {
       return api.DelObj(row.id)
     },
     // 获取部门数据
-    getDeptData() {
-      deptApi.GetList({status: 1}).then(ret => {
+    getDeptData () {
+      deptApi.GetList({ status: 1 }).then(ret => {
         this.deptOptions = ret.data.data
       })
     },
     // 获取菜单数据
-    getMenuData(data) {
+    getMenuData (data) {
       api.GetMenuData(data).then(res => {
         res.forEach(x => {
           // 根据当前角色的permission,对menuPermisson进行勾选处理
@@ -241,7 +238,7 @@ export default {
       })
     },
     // 所有勾选菜单节点数据
-    getMenuAllCheckedKeys() {
+    getMenuAllCheckedKeys () {
       // 目前被选中的菜单节点
       const checkedKeys = this.$refs.menuTree.getCheckedKeys()
       // 半选中的菜单节点
@@ -250,7 +247,7 @@ export default {
       return checkedKeys
     },
     // 所有自定义权限时,勾选的部门节点数据
-    getDeptAllCheckedKeys() {
+    getDeptAllCheckedKeys () {
       // 目前被选中的部门节点
       const checkedKeys = this.$refs.dept.getCheckedKeys()
       // 半选中的部门节点
@@ -259,7 +256,7 @@ export default {
       return checkedKeys
     },
     // 提交修改
-    submitPermisson() {
+    submitPermisson () {
       this.roleObj.menu = this.getMenuAllCheckedKeys() // 获取选中的菜单
       this.roleObj.dept = this.getDeptAllCheckedKeys() // 获取选中的部门
       const menuData = XEUtils.toTreeArray(this.menuOptions)
@@ -281,7 +278,7 @@ export default {
       })
     },
     /** 选择角色权限范围触发 */
-    dataScopeSelectChange(value) {
+    dataScopeSelectChange (value) {
       if (value !== 4) {
         // this.$refs.dept.setCheckedKeys([]);
       }
@@ -290,7 +287,7 @@ export default {
      * 菜单树点击,全选权限部分数据
      * @param data
      */
-    handleCheckClick(data, checked) {
+    handleCheckClick (data, checked) {
       const {
         menuPermission,
         children
@@ -305,7 +302,7 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.pageRequest()
   }
 }
@@ -341,6 +338,5 @@ export default {
     }
   }
 }
-
 
 </style>
