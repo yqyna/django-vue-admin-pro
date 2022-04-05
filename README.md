@@ -1,8 +1,8 @@
-# Django-Vue-Admin-Pro
+# Django-Vue-Admin
 
-[![img](https://img.shields.io/badge/license-MIT-blue.svg)](https://gitee.com/liqianglog/django-vue-admin/blob/master/LICENSE)  [![img](https://img.shields.io/badge/python-%3E=3.6.x-green.svg)](https://python.org/)  [![PyPI - Django Version badge](https://img.shields.io/badge/django%20versions-3.2-blue)](https://docs.djangoproject.com/zh-hans/3.2/) [![img](https://img.shields.io/badge/node-%3E%3D%2012.0.0-brightgreen)](https://nodejs.org/zh-cn/) [![img](https://gitee.com/dvadmin/django-vue-admin-pro/badge/star.svg?theme=dark)](https://gitee.com/dvadmin/django-vue-admin-pro)
+[![img](https://img.shields.io/badge/license-MIT-blue.svg)](https://gitee.com/liqianglog/django-vue-admin/blob/master/LICENSE)  [![img](https://img.shields.io/badge/python-%3E=3.6.x-green.svg)](https://python.org/)  [![PyPI - Django Version badge](https://img.shields.io/badge/django%20versions-3.2-blue)](https://docs.djangoproject.com/zh-hans/3.2/) [![img](https://img.shields.io/badge/node-%3E%3D%2012.0.0-brightgreen)](https://nodejs.org/zh-cn/) [![img](https://gitee.com/liqianglog/django-vue-admin/badge/star.svg?theme=dark)](https://gitee.com/liqianglog/django-vue-admin)
 
-[预 览](https://demo.django-vue-admin.com) | [官 网文档](https://www.django-vue-admin.com) | [群聊](https://qm.qq.com/cgi-bin/qm/qr?k=fOdnHhC8DJlRHGYSnyhoB8P5rgogA6Vs&jump_from=webapi) | [社区](https://bbs.django-vue-admin.com/) | [Github](https://github.com/liqianglog/django-vue-admin) | [django-vue-admin](https://gitee.com/dvadmin/django-vue-admin-pro/)
+[预 览](https://demo.django-vue-admin.com) | [官网文档](https://www.django-vue-admin.com) | [群聊](https://qm.qq.com/cgi-bin/qm/qr?k=fOdnHhC8DJlRHGYSnyhoB8P5rgogA6Vs&jump_from=webapi) | [社区](https://bbs.django-vue-admin.com) | [插件市场](https://bbs.django-vue-admin.com/plugMarket.html) | [Github](https://github.com/liqianglog/django-vue-admin) 
 
 
 
@@ -14,29 +14,39 @@
 
 ## 平台简介
 
-💡 [django-vue-admin-pro](https://gitee.com/dvadmin/django-vue-admin-pro) 是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
+💡 [django-vue-admin](https://gitee.com/dvadmin/django-vue-admin) 是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
 
-* 🧑‍🤝‍🧑前端采用[D2Admin](https://github.com/d2-projects/d2-admin) 、[Vue](https://cn.vuejs.org/)。
-* 👭后端采用Python语言Django框架。
-* 👫权限认证使用Jwt，支持多终端认证系统。
+
+
+* 🧑‍🤝‍🧑前端采用[D2Admin](https://github.com/d2-projects/d2-admin) 、[Vue](https://cn.vuejs.org/)、[ElementUI](https://element.eleme.cn/)。
+* 👭后端采用 Python 语言 Django 框架以及强大的 [Django REST Framework](https://pypi.org/project/djangorestframework)。
+* 👫权限认证使用[Django REST Framework SimpleJWT](https://pypi.org/project/djangorestframework-simplejwt)，支持多终端认证系统。
 * 👬支持加载动态权限菜单，多方式轻松权限控制。
-* 💏特别鸣谢：[D2Admin](https://github.com/d2-projects/d2-admin) 。
+* 💏特别鸣谢：[D2Admin](https://github.com/d2-projects/d2-admin) 、[Vue-Element-Admin](https://github.com/PanJiaChen/vue-element-admin)。
+* 💡 特别感谢[jetbrains](https://www.jetbrains.com/) 为本开源项目提供免费的 IntelliJ IDEA 授权。
 
 
 
 ## 在线体验
 
-👩‍👧‍👦演示地址：[http://demo.pro.django-vue-admin.com](http://demo.pro.django-vue-admin.com) 账号：superadmin 密码：superadmin123456
+👩‍👧‍👦演示地址：[http://demo.django-vue-admin.com](http://demo.django-vue-admin.com) 
 
-👩‍👦‍👦文档地址：未上线，部署可参考：[http://django-vue-admin.com](http://django-vue-admin.com)
+​			账号：superadmin 
+
+​			密码：superadmin123456
+
+👩‍👦‍👦文档地址：[https://django-vue-admin.com](https://django-vue-admin.com)
 
 
 
 ## 交流
 
-- 社区：[戳我](https://bbs.django-vue-admin.com)👩‍👦‍👦
+- 交流社区：[戳我](https://bbs.django-vue-admin.com)👩‍👦‍👦
 
-- QQ群号：687252418 点击链接加入群聊【dvadmin-Pro交流】：https://jq.qq.com/?_wv=1027&k=VSKYgRNn
+- 插件市场：[戳我](https://bbs.django-vue-admin.com/plugMarket.html)👩‍👦‍👦
+
+-  django-vue-admin交流01群：812482043 [点击链接加入群聊](https://qm.qq.com/cgi-bin/qm/qr?k=aJVwjDvH-Es4MPJQuoO32N0SucK22TE5&jump_from=webapi)
+-  django-vue-admin交流02群：687252418  [点击链接加入群聊](https://qm.qq.com/cgi-bin/qm/qr?k=4jJN4IjWGfxJ8YJXbb_gTsuWjR34WLdc&jump_from=webapi)
 
 - 二维码
 
@@ -44,34 +54,45 @@
 
 ## 源码地址
 
-gitee地址(主推)：[https://gitee.com/dvadmin/django-vue-admin-pro](https://gitee.com/dvadmin/django-vue-admin-pro)👩‍👦‍👦
+gitee地址(主推)：[https://gitee.com/liqianglog/django-vue-admin](https://gitee.com/liqianglog/django-vue-admin)👩‍👦‍👦
 
-github地址：[https://github.com/dvadmin-pro/django-vue-admin-pro](https://github.com/dvadmin-pro/django-vue-admin-pro)👩‍👦‍👦
+github地址：[https://github.com/liqianglog/django-vue-admin](https://github.com/liqianglog/django-vue-admin)👩‍👦‍👦
 
 
 
 ## 内置功能
 
-1.  🧑‍⚕️部门管理：配置系统组织机构（公司、部门、角色），树结构展现支持数据权限。
-2.  👨‍⚕️菜单管理：配置系统菜单，操作权限，按钮权限标识、后端接口权限等。
+1.  👨‍⚕️菜单管理：配置系统菜单，操作权限，按钮权限标识、后端接口权限等。
+2.  🧑‍⚕️部门管理：配置系统组织机构（公司、部门、角色）。
 3.  👩‍⚕️角色管理：角色菜单权限分配、数据权限分配、设置角色按部门进行数据范围权限划分。
-4.  🧑‍🎓权限管理：授权角色的权限范围。
+4.  🧑‍🎓权限权限：授权角色的权限范围。
 5.  👨‍🎓用户管理：用户是系统操作者，该功能主要完成系统用户配置。
-6.  🧑‍🍳操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
+6.  👬接口白名单：配置不需要进行权限校验的接口。
 7.  🧑‍🔧字典管理：对系统中经常使用的一些较为固定的数据进行维护。
-9.  📁附件管理：管理所有上传的和导出的文件和图片。
-10.  🦄定时任务：在线（添加、修改、删除)任务调度包含执行结果日志。~~
-11.  🛒应用商店：通过插件化自定义需要使用的功能，即插即用~~
+8.  🧑‍🔧地区管理：对省市县区域进行管理。
+9.  📁附件管理：对平台上所有文件、图片等进行统一管理。
+10.  🗓️操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
+11.  🔌[插件市场 ](https://bbs.django-vue-admin.com/plugMarket.html)：基于Django-Vue-Admin框架开发的应用和插件。
 
+##  插件市场 🔌
 
+- Celery异步任务：[dvadmin-celery](https://gitee.com/huge-dream/dvadmin-celery)
+- 升级中心后端：[dvadmin-upgrade-center](https://gitee.com/huge-dream/dvadmin-upgrade-center)
+- 升级中心前端：[dvadmin-upgrade-center-web](https://gitee.com/huge-dream/dvadmin-upgrade-center-web)
+
+## 准备工作
+~~~
+Python >= 3.6.0 (推荐3.8+版本)
+nodejs >= 14.0 (推荐最新)
+Mysql >= 5.7.0 (可选，默认数据库sqlite3，推荐8.0版本)
+Redis(可选，最新版)
+~~~
 
 ## 前端♝
 
-### 	开发🦗
-
 ```bash
 # 克隆项目
-git clone https://gitee.com/dvadmin/django-vue-admin-pro.git
+git clone https://gitee.com/liqianglog/django-vue-admin.git
 
 # 进入项目目录
 cd web
@@ -83,16 +104,8 @@ npm install --registry=https://registry.npm.taobao.org
 npm run dev
 # 浏览器访问 http://localhost:8080
 # .env.development 文件中可配置启动端口等参数
-```
-
-### 	发布♗
-
-```bash
-# 构建测试环境
-npm run build:stage
-
 # 构建生产环境
-npm run build:prod
+# npm run build
 ```
 
 
@@ -112,13 +125,20 @@ npm run build:prod
 	python3 manage.py migrate
 6. 初始化数据
 	python3 manage.py init
-7. 启动项目
-	python3 manage.py runserver 127.0.0.1:8000
+7. 初始化省市县数据:
+	python3 manage.py init_area
+8. 启动项目
+	python3 manage.py runserver 0.0.0.0:8000
 或使用 daphne :
   daphne -b 0.0.0.0 -8000 application.asgi:application
-初始账号：superadmin 密码：admin123456
-后端接口文档地址：http://127.0.0.1:8000/swagger
 ~~~
+
+### 访问项目
+
+- 访问地址：[http://localhost:8080](http://localhost:8080) (默认为此地址，如有修改请按照配置文件)
+- 账号：`superadmin` 密码：`admin123456`
+
+
 
 
 
@@ -128,7 +148,7 @@ npm run build:prod
 # 先安装docker-compose (自行百度安装),执行此命令等待安装，如有使用celery插件请打开docker-compose.yml中celery 部分注释
 docker-compose up -d
 # 初始化后端数据(第一次执行即可)
-docker exec -ti dvadmin-pro-django bash
+docker exec -ti DVAdmin-django bash
 python manage.py makemigrations 
 python manage.py migrate
 python manage.py init -y
@@ -151,20 +171,21 @@ docker-compose up -d --build
 
 ## 演示图✅
 
-![image-20210727094356353](https://gitee.com/liqianglog/pic/raw/master/master/image-20210727094356353.png)
+![image-01](https://gitee.com/liqianglog/pic/raw/master/master/01.png)
 
-![image-20210727094510482](https://gitee.com/liqianglog/pic/raw/master/master/image-20210727094510482.png)
+![image-02](https://gitee.com/liqianglog/pic/raw/master/master/02.png)
 
-![image-20210727094547301](https://gitee.com/liqianglog/pic/raw/master/master/image-20210727094547301.png)
+![image-03](https://gitee.com/liqianglog/pic/raw/master/master/03.png)
 
-![image-20210727094600443](https://gitee.com/liqianglog/pic/raw/master/master/image-20210727094600443.png)
+![image-04](https://gitee.com/liqianglog/pic/raw/master/master/04.png)
 
-![image-20210727094620149](https://gitee.com/liqianglog/pic/raw/master/master/image-20210727094620149.png)
+![image-05](https://gitee.com/liqianglog/pic/raw/master/master/05.png)
 
-![image-20210727094632707](https://gitee.com/liqianglog/pic/raw/master/master/image-20210727094632707.png)
+![image-06](https://gitee.com/liqianglog/pic/raw/master/master/06.png)
 
-![image-20210727094647990](https://gitee.com/liqianglog/pic/raw/master/master/image-20210727094647990.png)
+![image-07](https://gitee.com/liqianglog/pic/raw/master/master/06.png)
+
+![image-08](https://gitee.com/liqianglog/pic/raw/master/master/08.png)
 
 
 
-💡 特别感谢[jetbrains](https://www.jetbrains.com/) 为本开源项目提供免费的 IntelliJ IDEA 授权
