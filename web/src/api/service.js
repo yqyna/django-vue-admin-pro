@@ -84,7 +84,6 @@ function createService () {
             util.cookies.remove('uuid')
             util.cookies.remove('refresh')
             router.push({ path: '/login' })
-            router.go(0)
             errorCreate(`${getErrorMessage(dataAxios.msg)}`)
             break
           case 404:
