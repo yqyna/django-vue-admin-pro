@@ -278,27 +278,6 @@ class Initialize(CoreInitialize):
                 "is_catalog": 0
             },
             {
-                "id": 6,
-                "description": "",
-                "modifier": "1",
-                "dept_belong_id": "",
-                "update_datetime": datetime.datetime.now(),
-                "create_datetime": datetime.datetime.now(),
-                "icon": "key",
-                "name": "角色权限",
-                "sort": 5,
-                "is_link": 0,
-                "web_path": "/rolePermission",
-                "component": "system/rolePermission/index",
-                "component_name": "rolePermission",
-                "status": 1,
-                "cache": 0,
-                "visible": 1,
-                "creator_id": 1,
-                "parent_id": 2,
-                "is_catalog": 0
-            },
-            {
                 "id": 7,
                 "description": "",
                 "modifier": "1",
