@@ -64,8 +64,10 @@ services:
       - "8000"
     restart: always
     networks:
-      network:
-        ipv4_address: 177.7.0.12
+      driver:
+        host
+#      network:
+#        ipv4_address: 177.7.0.12
 
 # 如果使用celery 插件，请自行打开此注释
 #  dvadmin-pro-celery:
