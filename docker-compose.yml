@@ -94,6 +94,8 @@ services:
 networks:
   network:
     driver: host
+  my_django_project_network:
+    driver: host
 #    external: true
 #    ipam:
 #      driver: host
