@@ -13,8 +13,9 @@ services:
       - ./docker_env/nginx/my.conf:/etc/nginx/conf.d/my.conf
     expose:
       - "8080"
-    networks:
-      - network
+    network_mode: host
+#    networks:
+#      - network
 #      network:
 #        ipv4_address: 172.27.112.52
 
