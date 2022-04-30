@@ -15,8 +15,7 @@ services:
       - "8080"
     networks:
       network:
-        driver: host
-#        ipv4_address: 177.7.0.11
+        ipv4_address: 172.27.0.11
 
 #  dvadmin-pro-mysql:
 #    image: mysql:5.7
@@ -66,8 +65,7 @@ services:
     restart: always
     networks:
       network:
-        driver: host
-#        ipv4_address: 177.7.0.12
+        ipv4_address: 172.27.0.12
 
 # 如果使用celery 插件，请自行打开此注释
 #  dvadmin-pro-celery:
@@ -96,5 +94,5 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: '177.7.0.0/16'
+        - subnet: '172.27.0.0/16'
 
