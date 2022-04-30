@@ -13,11 +13,9 @@ services:
       - ./docker_env/nginx/my.conf:/etc/nginx/conf.d/my.conf
     expose:
       - "8080"
-    network_mode: host
-#    networks:
-#      - network
-#      network:
-#        ipv4_address: 172.27.112.52
+    networks:
+      my_django_project_network:
+        ipv4_address: 177.7.0.11
 
 #  dvadmin-pro-mysql:
 #    image: mysql:5.7
@@ -65,9 +63,9 @@ services:
     expose:
       - "8000"
     restart: always
-    network_mode: host
-#    networks:
-#      - network
+#    network_mode: host
+    networks:
+      - network
 #      network:
 #        ipv4_address: 172.27.112.52
 
@@ -96,11 +94,9 @@ services:
 networks:
   network:
     driver: host
-#  my_django_project_network:
-#    driver: host
-#    external: true
-#    ipam:
-#      driver: host
-#      config:
-#        - subnet: '172.27.0.0/16'
+  my_django_project_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: '177.7.0.0/16'
 
