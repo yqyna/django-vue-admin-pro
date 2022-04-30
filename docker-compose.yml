@@ -14,8 +14,8 @@ services:
     expose:
       - "8080"
     network_mode: host
-    networks:
-      - network
+#    networks:
+#      - network
 #      network:
 #        ipv4_address: 172.27.112.52
 
@@ -66,8 +66,8 @@ services:
       - "8000"
     restart: always
     network_mode: host
-    networks:
-      - network
+#    networks:
+#      - network
 #      network:
 #        ipv4_address: 172.27.112.52
 
