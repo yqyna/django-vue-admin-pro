@@ -88,7 +88,7 @@ class ImgViewSet(CustomModelViewSet):
         with open(f'{self.media_path}%s' % target_filename, 'wb') as target_file:  # 创建新文件
             while True:
                 try:
-                    filename = f'{self.media_path}%s_%d' % (image_uid, chunk)
+                    filename = f'{self.media_path}%s_%d.{img_obj.file_type}' % (image_uid, chunk)
                     source_file = open(filename, 'rb')  # 按序打开每个分片
                     target_file.write(source_file.read())  # 读取分片内容写入新文件
                     source_file.close()
