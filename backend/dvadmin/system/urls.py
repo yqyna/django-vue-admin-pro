@@ -16,6 +16,7 @@ from dvadmin.system.views.dept import DeptViewSet
 from dvadmin.system.views.dictionary import DictionaryViewSet
 from dvadmin.system.views.file_list import FileViewSet
 from dvadmin.system.views.img_list import ImgViewSet
+from dvadmin.system.views.login import ApiLogin
 from dvadmin.system.views.menu import MenuViewSet
 from dvadmin.system.views.menu_button import MenuButtonViewSet
 from dvadmin.system.views.operation_log import OperationLogViewSet
@@ -42,5 +43,7 @@ urlpatterns = [
     path('menu/web_router/', MenuViewSet.as_view({'get': 'web_router'})),
     path('user/user_info/', UserViewSet.as_view({'get': 'user_info', 'put': 'update_user_info'})),
     path('user/change_password/<str:pk>/', UserViewSet.as_view({'put': 'change_password'})),
+    path('uploadFileChunk', ImgViewSet.as_view({"post": "upload_file_chunk"})),
+    path('uploadFileSuccess', ImgViewSet.as_view({"post": "upload_success"}))
 ]
 urlpatterns += system_url.urls

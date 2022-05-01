@@ -207,6 +207,9 @@ class ImgList(CoreModel):
     name = models.CharField(max_length=50, null=True, blank=True, verbose_name="名称", help_text="名称")
     url = models.ImageField(upload_to=media_img_name)
     md5sum = models.CharField(max_length=36, blank=True, verbose_name="文件md5", help_text="文件md5")
+    is_success = models.BooleanField(default=0, verbose_name="是否上传成功", help_text="是否上传成功")
+    image_uid = models.CharField(max_length=50, blank=True, verbose_name="文件uid", help_text="文件uid")
+    file_type = models.CharField(max_length=50, blank=True, verbose_name="文件类型", help_text="类型")
 
     def save(self, *args, **kwargs):
         if not self.md5sum:  # file is new
