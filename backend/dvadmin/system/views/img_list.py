@@ -68,11 +68,17 @@ class ImgViewSet(CustomModelViewSet):
                     md5sum=image_uid,
                     file_type=file_type
                 )
-            upload_file.save(f'{media_path}{filename}')
+            f = open(self.media_path + upload_file.name, 'wb')  # 将客户端上传的文件保存在服务器上，一定要用wb二进制方式写入，否则文件会乱码
+            for line in upload_file.chunks():  # 通过chunks分片上传存储在服务器内存中,以64k为一组，循环写入到服务器中
+                f.write(line)
+            f.close()
         else:
             if img_obj.is_success:
                 return ErrorResponse(code=400, msg="该文件已经上传成功！")
-            upload_file.save(f'{media_path}{filename}')
+            f = open(self.media_path + upload_file.name, 'wb')  # 将客户端上传的文件保存在服务器上，一定要用wb二进制方式写入，否则文件会乱码
+            for line in upload_file.chunks():  # 通过chunks分片上传存储在服务器内存中,以64k为一组，循环写入到服务器中
+                f.write(line)
+            f.close()
         return SuccessResponse(msg="分片上传成功", data={"filename": filename})
 
     def upload_success(self, request):
