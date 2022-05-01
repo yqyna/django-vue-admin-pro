@@ -61,7 +61,7 @@ class ImgViewSet(CustomModelViewSet):
         if not all([image_uid, upload_file]):
             return ErrorResponse(code=400, msg="分片上传缺少必传参数!")
         if not img_obj:
-            ImgList.objects.object.create(
+            ImgList.objects.create(
                     name=real_file_name,
                     url="",
                     image_uid=image_uid,
