@@ -79,7 +79,7 @@ class ImgViewSet(CustomModelViewSet):
             for line in upload_file.chunks():  # 通过chunks分片上传存储在服务器内存中,以64k为一组，循环写入到服务器中
                 f.write(line)
             f.close()
-        return SuccessResponse(msg="分片上传成功", data={"filename": filename})
+        return SuccessResponse(msg="分片上传成功", data={"filename": filename}, mold=True)
 
     def upload_success(self, request):
         image_uid = request.data.get('image_uid')  # 获取文件的唯一标识符
@@ -105,4 +105,4 @@ class ImgViewSet(CustomModelViewSet):
         img_obj.is_success = 1
         img_obj.url = f"media/imgs/{target_filename}"
         img_obj.save()
-        return SuccessResponse(msg="上传成功", data=[])
+        return SuccessResponse(msg="上传成功", data=[], mold=True)

@@ -17,17 +17,24 @@ class SuccessResponse(Response):
     """
 
     def __init__(self, data=None, msg='success', status=None, template_name=None, headers=None, exception=False,
-                 content_type=None,page=1,limit=1,total=1):
-        std_data = {
-            "code": 2000,
-            "data": {
-                "page": page,
-                "limit": limit,
-                "total": total,
-                "data": data
-            },
-            "msg": msg
-        }
+                 content_type=None,page=1,limit=1,total=1, mold=False):
+        if mold:
+            std_data = {
+                "code": 2000,
+                "data": data,
+                "msg": msg
+            }
+        else:
+            std_data = {
+                "code": 2000,
+                "data": {
+                    "page": page,
+                    "limit": limit,
+                    "total": total,
+                    "data": data
+                },
+                "msg": msg
+            }
         super().__init__(std_data, status, template_name, headers, exception, content_type)
 
 
