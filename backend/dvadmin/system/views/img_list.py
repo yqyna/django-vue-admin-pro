@@ -45,7 +45,7 @@ class ImgViewSet(CustomModelViewSet):
     filter_fields = ['name', ]
     permission_classes = []
 
-    media_path = os.path.join('media/imgs/')
+    media_path = os.path.join('media/media/imgs/')
 
     def upload_file_chunk(self, request):
 
