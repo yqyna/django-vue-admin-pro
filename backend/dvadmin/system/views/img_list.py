@@ -56,7 +56,7 @@ class ImgViewSet(CustomModelViewSet):
             return ErrorResponse(code=400, msg="分片上传缺少必传参数!")
         filename = upload_file.name
         image_uid, chunk = filename.split("_")
-        chunk, file_type = chunk.split(',')
+        chunk, file_type = chunk.split('.')
         img_obj = ImgList.objects.filter(image_uid=image_uid).first()
         if not all([image_uid, upload_file]):
             return ErrorResponse(code=400, msg="分片上传缺少必传参数!")
