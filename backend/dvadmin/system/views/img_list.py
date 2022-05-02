@@ -52,7 +52,7 @@ class ImgViewSet(CustomModelViewSet):
         media_path = self.media_path
         upload_file = request.FILES.get('file')
         real_file_name = request.data.get('name')
-        filename = request.data.get('file_name')
+        filename = request.data.get('filename')
         if not all([upload_file, real_file_name, filename]):
             return ErrorResponse(code=400, msg="分片上传缺少必传参数!")
         # filename = upload_file.name
