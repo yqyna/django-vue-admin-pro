@@ -44,6 +44,7 @@ urlpatterns = [
     path('user/user_info/', UserViewSet.as_view({'get': 'user_info', 'put': 'update_user_info'})),
     path('user/change_password/<str:pk>/', UserViewSet.as_view({'put': 'change_password'})),
     path('uploadFileChunk', ImgViewSet.as_view({"post": "upload_file_chunk"})),
-    path('uploadFileSuccess', ImgViewSet.as_view({"post": "upload_success"}))
+    path('uploadFileSuccess', ImgViewSet.as_view({"post": "upload_success"})),
+    path('checkUploadFile', ImgViewSet.as_view({"post": "check_file"})),
 ]
 urlpatterns += system_url.urls

@@ -107,3 +107,15 @@ class ImgViewSet(CustomModelViewSet):
         img_obj.url = f"media/imgs/{target_filename}"
         img_obj.save()
         return SuccessResponse(msg="上传成功", data=[], mold=True)
+
+    def check_file(self, request):
+        image_uid = request.data.get('image_uid')
+        if not all([image_uid]):
+            return ErrorResponse(code=400, msg="缺少必传参数!")
+        img_obj = ImgList.objects.filter(image_uid=image_uid).first()
+        if img_obj:
+            if img_obj.is_success:
+                return ErrorResponse(code=4000, msg="该文件已经上传成功！")
+            else:
+                return ErrorResponse(code=4000, msg="该文件分片上传进行中！")
+        return SuccessResponse(msg="文件未上传", data=[], mold=True)
