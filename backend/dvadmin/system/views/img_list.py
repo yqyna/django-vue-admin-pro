@@ -85,10 +85,10 @@ class ImgViewSet(CustomModelViewSet):
     def upload_success(self, request):
         image_uid = request.data.get('image_uid')  # 获取文件的唯一标识符
         if not all([image_uid]):
-            return ErrorResponse(code=400, msg="缺少必传参数!")
+            return ErrorResponse(code=4000, msg="缺少必传参数!")
         img_obj = ImgList.objects.filter(image_uid=image_uid).first()
         if not img_obj:
-            return ErrorResponse(code=400, msg="该文件未进行分片上传！")
+            return ErrorResponse(code=4000, msg="该文件未进行分片上传！")
         target_filename = img_obj.image_uid + "." + img_obj.file_type
 
         chunk = 0  # 分片序号
