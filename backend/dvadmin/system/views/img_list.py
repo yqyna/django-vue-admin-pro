@@ -75,7 +75,7 @@ class ImgViewSet(CustomModelViewSet):
             f.close()
         else:
             if img_obj.is_success:
-                return ErrorResponse(code=400, msg="该文件已经上传成功！")
+                return ErrorResponse(code=4000, msg="该文件已经上传成功！")
             f = open(self.media_path + filename, 'wb')  # 将客户端上传的文件保存在服务器上，一定要用wb二进制方式写入，否则文件会乱码
             for line in upload_file.chunks():  # 通过chunks分片上传存储在服务器内存中,以64k为一组，循环写入到服务器中
                 f.write(line)
