@@ -52,9 +52,10 @@ class ImgViewSet(CustomModelViewSet):
         media_path = self.media_path
         upload_file = request.FILES.get('file')
         real_file_name = request.data.get('name')
-        if not all([upload_file, real_file_name]):
+        filename = request.data.get('file_name')
+        if not all([upload_file, real_file_name, filename]):
             return ErrorResponse(code=400, msg="分片上传缺少必传参数!")
-        filename = upload_file.name
+        # filename = upload_file.name
         image_uid, chunk = filename.split("_")
         chunk, file_type = chunk.split('.')
         img_obj = ImgList.objects.filter(image_uid=image_uid).first()
@@ -68,7 +69,7 @@ class ImgViewSet(CustomModelViewSet):
                     md5sum=image_uid,
                     file_type=file_type
                 )
-            f = open(self.media_path + upload_file.name, 'wb')  # 将客户端上传的文件保存在服务器上，一定要用wb二进制方式写入，否则文件会乱码
+            f = open(self.media_path + filename, 'wb')  # 将客户端上传的文件保存在服务器上，一定要用wb二进制方式写入，否则文件会乱码
             for line in upload_file.chunks():  # 通过chunks分片上传存储在服务器内存中,以64k为一组，循环写入到服务器中
                 f.write(line)
             f.close()
