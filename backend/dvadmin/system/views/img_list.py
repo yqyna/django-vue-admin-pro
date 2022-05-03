@@ -53,7 +53,8 @@ class ImgViewSet(CustomModelViewSet):
         upload_file = request.FILES.get('file')
         real_file_name = request.data.get('name')
         filename = request.data.get('filename')
-        if not all([upload_file, real_file_name, filename]):
+        total_num = request.data.get('total_num')
+        if not all([upload_file, real_file_name, filename, total_num]):
             return ErrorResponse(code=400, msg="分片上传缺少必传参数!")
         # filename = upload_file.name
         image_uid, chunk = filename.split("_")
@@ -65,6 +66,7 @@ class ImgViewSet(CustomModelViewSet):
             ImgList.objects.create(
                     name=real_file_name,
                     url="",
+                    total_num=total_num,
                     image_uid=image_uid,
                     md5sum=image_uid,
                     file_type=file_type
