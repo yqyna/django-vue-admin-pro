@@ -7,6 +7,7 @@
 @Remark:
 """
 import os
+from pathlib import Path
 
 from rest_framework import serializers
 
@@ -64,13 +65,13 @@ class ImgViewSet(CustomModelViewSet):
             return ErrorResponse(code=400, msg="分片上传缺少必传参数!")
         if not img_obj:
             ImgList.objects.create(
-                    name=real_file_name,
-                    url="",
-                    total_num=total_num,
-                    image_uid=image_uid,
-                    md5sum=image_uid,
-                    file_type=file_type
-                )
+                name=real_file_name,
+                url="",
+                total_num=total_num,
+                image_uid=image_uid,
+                md5sum=image_uid,
+                file_type=file_type
+            )
             f = open(self.media_path + filename, 'wb')  # 将客户端上传的文件保存在服务器上，一定要用wb二进制方式写入，否则文件会乱码
             for line in upload_file.chunks():  # 通过chunks分片上传存储在服务器内存中,以64k为一组，循环写入到服务器中
                 f.write(line)
@@ -91,6 +92,15 @@ class ImgViewSet(CustomModelViewSet):
         img_obj = ImgList.objects.filter(image_uid=image_uid).first()
         if not img_obj:
             return ErrorResponse(code=4000, msg="该文件未进行分片上传！")
+
+        not_upload_chunk = []
+        for i in range(img_obj.total_num):
+            my_file = Path(f'{self.media_path}%s_%d.{img_obj.file_type}' % (image_uid, i))
+            if not my_file.is_file():
+                not_upload_chunk.append(i)
+        if not_upload_chunk:
+            return ErrorResponse(code=4000, msg="该文件存在分片未上传！", data={"not_upload_chunk": not_upload_chunk})
+
         target_filename = img_obj.image_uid + "." + img_obj.file_type
 
         chunk = 0  # 分片序号
@@ -113,11 +123,16 @@ class ImgViewSet(CustomModelViewSet):
     def check_file(self, request):
         image_uid = request.data.get('image_uid')
         if not all([image_uid]):
-            return ErrorResponse(code=400, msg="缺少必传参数!")
+            return ErrorResponse(code=4000, msg="缺少必传参数!")
         img_obj = ImgList.objects.filter(image_uid=image_uid).first()
         if img_obj:
             if img_obj.is_success:
                 return ErrorResponse(code=4000, msg="该文件已经上传成功！")
             else:
-                return ErrorResponse(code=4000, msg="该文件分片上传进行中！")
+                not_upload_chunk = []
+                for i in range(img_obj.total_num):
+                    my_file = Path(f'{self.media_path}%s_%d.{img_obj.file_type}' % (image_uid, i))
+                    if not my_file.is_file():
+                        not_upload_chunk.append(i)
+                return ErrorResponse(code=4000, msg="该文件分片上传进行中！", data={"not_upload_chunk": not_upload_chunk})
         return SuccessResponse(msg="文件未上传", data=[], mold=True)
